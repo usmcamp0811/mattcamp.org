@@ -1,0 +1,15 @@
+{% macro blog_post_home(blog_post) %}
+  <!-- Blog Post -->
+  <div class="card mb-4">
+    <img class="card-img-top blog_image" src="{{blog_post.post_image}}" alt="Card image cap">
+    <div class="card-body">
+      <h2 class="card-title">{{blog_post.post_title}}</h2>
+      <p class="card-text">{{blog_post.post_summary}}</p>
+      <a href="{{blog_post.post_link}}" class="btn btn-primary">Read More &rarr;</a>
+    </div>
+    <div class="card-footer text-muted">
+      Posted on {{blog_post.post_date}} by
+      <a href="{{blog_post.post_by_url}}">{{blog_post.post_by}}</a>
+    </div>
+  </div>
+{% endmacro %}

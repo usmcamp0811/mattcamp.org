@@ -1,0 +1,29 @@
+{% macro two_col_links_widget(title, links_col1, links_col2) %}
+  <!-- Categories Widget -->
+  <div class="card my-4">
+    <h5 class="card-header">{{title}}</h5>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <ul class="list-unstyled mb-0">
+              {% for link in links_col1 %}
+              <li>
+                <a href="{{link.url}}">{{link.text}}</a>
+              </li>
+              {% endfor %}
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <ul class="list-unstyled mb-0">
+              {% for link in links_col2 %}
+              <li>
+                <a href="{{link.url}}">{{link.text}}</a>
+              </li>
+              {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
