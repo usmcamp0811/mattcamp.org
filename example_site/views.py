@@ -4,7 +4,7 @@ from flask_nav.elements import Navbar, View
 import pandas as pd
 
 
-main_site = Blueprint('main_site',
+example_site = Blueprint('example_site',
                       __name__,
                       template_folder='templates',
                       static_folder='static',
@@ -31,59 +31,50 @@ class Links(object):
     text = "Some Awesome Page"
     url = 'http://example.org'
 
-@main_site.route('/main/<path:filename>')
+@example_site.route('/example/<path:filename>')
 def base_static(filename):
-    return send_from_directory(main_site.root_path + '/../main_site/static', filename)
+    return send_from_directory(example_site.root_path + '/../example_site/static', filename)
 
-@main_site.route('/api')
+@example_site.route('/example/api')
 def api():
+    """
+    Example API route for use as an ajax data source
+    :return:
+    """
     df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
     return jsonify(dict(data=df.as_matrix().tolist()))
 
 
-@main_site.route('/')
+@example_site.route('/example/blog_home')
 def index():
-
+    """
+    Example blog home page
+    :return:
+    """
     user = User()
     blog_posts = []
     for i in range(5):
         blog_posts.append(BlogPost())
 
     temp_link_list = [Links() for i in range(2)]
-    links_widget = dict(title='Links Widget',
+    links_widget = dict(title='Example Link Widget',
                         links_col1=temp_link_list,
                         links_col2=temp_link_list)
-
+    print(links_widget)
     html = render_template('index.html',
                            current_user = user,
                            blog_posts = blog_posts,
-                           links=links_widget,
-                           active_page='home')
+                           links=links_widget)
     return html
 
-@main_site.route('/about')
-def about():
 
-    html = render_template('about.html',
-                           active_page='about')
-    return html
-
-@main_site.route('/nav')
-def navbar():
-
-    user = User()
-    blog_posts = []
-    for i in range(5):
-        blog_posts.append(BlogPost())
-
-    html = render_template('base.html',
-                           current_user = user,
-                           blog_posts = blog_posts)
-    return html
-
-@main_site.route('/datatable')
+@example_site.route('/example/datatable')
 def table():
-
+    '''
+    Example of how to use data tables to display a dataframe. Can either accept data pushed via AJAX data source
+    or it can be passed data directly from a dataframe converted to a matrix
+    :return:
+    '''
     df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
     cols = df.columns
     table = dict(title='Example DataTable', columns=cols, rows=[])

@@ -9,8 +9,11 @@ def create_app():
 
 
     from main_site.views import main_site
-
+    from example_site.views import example_site
+    from bitcoin_project.views import bitcoin_project
     app.register_blueprint(main_site)
+    app.register_blueprint(example_site)
+    app.register_blueprint(bitcoin_project)
 
     return app
 

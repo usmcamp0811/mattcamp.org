@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "macros/blog_post_home.html" import blog_post_home with context %}
+{% from "macros/search_widget.html" import search_widget with context %}
+{% from "macros/widget_with_links.html" import two_col_links_widget with context %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="/main/css/about.css">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-1 text-center">
+    <h3>Who Am I?</h3>
+    <img src="/main/img/matt_headshot.jpg" class="rounded-circle" alt="Matt Camp">
+    <h3>I'm a Marine Veteran turned Data Geek</h3>
+</div>
+
+<div class="container-fluid bg-2 text-center">
+    <h3>What Am I?</h3>
+    <p>Lorem ipsum..</p>
+</div>
+
+<div class="container-fluid bg-3 text-center">
+    <h3>Where To Find Me?</h3>
+    <p>Lorem ipsum..</p>
+</div>
+
+
+{% endblock %}

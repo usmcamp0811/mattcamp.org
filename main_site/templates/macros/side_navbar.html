@@ -1,0 +1,13 @@
+{% macro side_navbar(links) %}
+<div class="container-fluid">
+    <div class="row d-flex d-md-block flex-nowrap wrapper">
+        <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+                <div class="list-group border-0 card text-center text-md-left">
+                    {% for link in links %}
+                    <a href="{{link.link}}" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-file"></i> <span class="d-none d-md-inline">{{link.title}}</span></a>
+                    {% endfor %}
+                </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
