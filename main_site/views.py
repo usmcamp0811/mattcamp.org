@@ -1,6 +1,8 @@
-from flask import Flask, Blueprint, render_template, send_from_directory
+from flask import Flask, Blueprint, render_template, send_from_directory, jsonify
 from flask_bootstrap import Bootstrap
 from flask_nav.elements import Navbar, View
+import pandas as pd
+
 
 main_site = Blueprint('main_site',
                       __name__,
@@ -33,6 +35,11 @@ class Links(object):
 def base_static(filename):
     return send_from_directory(main_site.root_path + '/../main_site/static', filename)
 
+@main_site.route('/api')
+def api():
+    df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
+    return jsonify(dict(data=df.as_matrix().tolist()))
+
 
 @main_site.route('/')
 def index():
@@ -64,4 +71,18 @@ def navbar():
     html = render_template('base.html',
                            current_user = user,
                            blog_posts = blog_posts)
+    return html
+
+@main_site.route('/datatable')
+def table():
+
+    df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
+    cols = df.columns
+    rows = df.as_matrix()
+
+    table = dict(columns=cols, rows=[])
+
+    html = render_template('example_datatable.html',
+                           table=table,
+                           datapath='/api')
     return html

@@ -4,8 +4,9 @@
 }
 
 .navbar_logo {
-	height: 35px;
-	padding-bottom: 10px;
+	height: 42px;
+	padding-bottom: 0px;
+    padding-right: 40px;
 }
 
 .navbar-default .navbar-nav > li > a {
@@ -14,6 +15,7 @@
 
 .container {
 	width: 95%;
+    max-width: 95%;
 }
 
 .navbar-default .navbar-nav>li>a {
@@ -34,5 +36,23 @@
 .navbar_container {
     height: 50px;
     padding: 0px;
+    max-width: 98%
 }
 
+.page_content {
+    padding-top: 50px;
+}
+
+body {
+  padding-top: 51px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 51px;
+  }
+}
+
+.navbar_container {
+    max-width: 98% !important;
+}
