@@ -65,3 +65,8 @@ body {
 	box-sizing: content-box !important;
 }
 
+[role="button"], a, area, button, input, label, select, summary, textarea {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	text-align: center;
+}
