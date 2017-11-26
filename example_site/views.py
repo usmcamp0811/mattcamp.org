@@ -1,7 +1,8 @@
 from flask import Flask, Blueprint, render_template, send_from_directory, jsonify
 from flask_bootstrap import Bootstrap
 import pandas as pd
-
+import numpy as np
+from flask_jsonpify import jsonpify
 
 example_site = Blueprint('example_site',
                       __name__,
@@ -81,4 +82,19 @@ def table():
     html = render_template('example_datatable.html',
                            table=table,
                            datapath='/api')
+    return html
+
+@example_site.route('/example/test.json')
+def send_bc2():
+    # df = pd.read_csv('/home/mcamp/PythonProjects/BitCoinDashboard/test.csv')
+    N = 1024
+    ix = np.arange(N)
+    y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
+    x = range(0,N)
+    return jsonpify(np.array([x, y]).T.tolist())
+
+@example_site.route('/example/flot_lineplot')
+def plot_flot():
+    html = render_template('flot_line_plot.html',
+                           path_to_data='/example/test.json')
     return html

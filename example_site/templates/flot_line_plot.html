@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "macros/flot_linechart.html" import flot_line_chart %}
+
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="/main/css/under_construction.css">
+<link rel="stylesheet" href="/main/css/flot_plots.css">
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-12">
+    {{flot_line_chart(header="Line Chart Example with Data From Python")}}
+</div>
+
+{% block footer %}
+{{super()}}
+<footer class="footer container-fluid text-center">
+    <span class="text-muted">
+            <h5>Find me on</h5>
+<a target="_blank" href="https://github.com/usmcamp0811"><img src="/main/img/github-256.png" class="find_me"></a>
+<a target="_blank" href="https://www.linkedin.com/in/matthewjcamp/"><img src="/main/img/linkedin_circle_black-256.png" class="find_me"></a>
+    </span>
+</footer>
+{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js">
+<!-- Flot Charts JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/excanvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flot.tooltip/0.9.0/jquery.flot.tooltip.js"></script>
+
+
+<script type="text/javascript">
+    var data_path = "{{path_to_data}}"
+</script>
+<script type="text/javascript" src="/main/js/flot_line_plot.js"></script>
+
+{% endblock %}

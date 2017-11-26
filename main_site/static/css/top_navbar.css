@@ -49,7 +49,7 @@ body {
 
 @media (min-width: 992px) {
   body {
-    padding-top: 0px;
+    padding-top: 50px;
   }
 }
 
@@ -69,4 +69,11 @@ body {
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
 	text-align: center;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+	color: #16181b;
+	text-decoration: none;
+	background-color: #f8f9fa;
+	width: inherit;
 }
