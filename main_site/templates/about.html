@@ -18,15 +18,14 @@
 </div>
 
 
-
+{% block footer %}
+{{super()}}
 <footer class="footer container-fluid text-center">
-      <div class="container">
-        <span class="text-muted">
-                <h5>Find me on</h5>
-    <a target="_blank" href="https://github.com/usmcamp0811"><img src="/main/img/github-256.png" class="find_me"></a>
-    <a target="_blank" href="https://www.linkedin.com/in/matthewjcamp/"><img src="/main/img/linkedin_circle_black-256.png" class="find_me"></a>
-        </span>
-      </div>
+    <span class="text-muted">
+            <h5>Find me on</h5>
+<a target="_blank" href="https://github.com/usmcamp0811"><img src="/main/img/github-256.png" class="find_me"></a>
+<a target="_blank" href="https://www.linkedin.com/in/matthewjcamp/"><img src="/main/img/linkedin_circle_black-256.png" class="find_me"></a>
+    </span>
 </footer>
-
+{% endblock %}
 {% endblock %}

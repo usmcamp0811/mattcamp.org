@@ -16,8 +16,11 @@
 {{top_navbar(active_page)}}
 {% endblock %}
 
-{% block content %}
-{% endblock %}
+{%- block content %}
+{{super()}}
+{%- block footer %}
+{%- endblock footer %}
+{%- endblock content %}
 
 {% block scripts %}
 
@@ -27,3 +30,4 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 {% endblock %}
+
