@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, send_from_directory, jsonify
+from flask import Flask, Blueprint, render_template, send_from_directory, jsonify, request
 from flask_bootstrap import Bootstrap
 import pandas as pd
 
@@ -40,7 +40,7 @@ def api():
     return jsonify(dict(data=df.as_matrix().tolist()))
 
 
-@main_site.route('/')
+@main_site.route('/blog')
 def index():
 
     user = User()
@@ -60,11 +60,23 @@ def index():
                            active_page='home')
     return html
 
+@main_site.route('/')
 @main_site.route('/about')
 def about():
 
     html = render_template('about.html',
                            active_page='about')
+    return html
+
+@main_site.route('/projects')
+@main_site.route('/blog')
+@main_site.route('/resume')
+@main_site.route('/examples')
+def under_construction():
+    path = request.path.replace('/','')
+
+    html = render_template('under_construction.html',
+                           active_page=path)
     return html
 
 @main_site.route('/nav')
