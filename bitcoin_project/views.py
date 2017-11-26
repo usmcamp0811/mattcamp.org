@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, render_template, send_from_directory, jsonify
 from flask_bootstrap import Bootstrap
-from flask_nav.elements import Navbar, View
+
 import pandas as pd
 import sys
 sys.path.append("..")

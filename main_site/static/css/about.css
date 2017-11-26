@@ -1,18 +1,19 @@
 .bg-1 {
-	background-color: #303030;
+	background-color: #000f42;
 	color: #fff;
-    background: url(../img/4-14_Marines_in_Fallujah.jpg) no-repeat !important;
-    padding-top:100px;
-    background-size:cover;
-    height: 50%;
+    /*background: url(../img/4-14_Marines_in_Fallujah.jpg) no-repeat !important;*/
+    padding-top:100px !important;
+    background-size:cover !important;
+    background-position:center center !important;
+    background-attachment:fixed !important;
 }
 
 .bg-2 {
-  background-color: #ed4924;;
+  background-color: #5a0009;
   color: #ffffff;
 }
 .bg-3 {
-  background-color: #ffffff; /* White */
+  background-color:  #000f42; /* White */
   color: #555555;
 }
 
@@ -20,3 +21,4 @@
     padding-top: 70px;
     padding-bottom: 70px;
 }
+
