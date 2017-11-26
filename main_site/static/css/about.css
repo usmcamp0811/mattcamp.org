@@ -49,3 +49,17 @@
 	line-height: 60px;
 	background-color: #f5f5f5;
 }
+
+.page_content {
+    padding-top: 50px;
+}
+
+body {
+  padding-top: 54px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}

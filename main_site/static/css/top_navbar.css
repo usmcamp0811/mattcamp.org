@@ -4,7 +4,7 @@
 }
 
 .navbar_logo {
-	height: 42px;
+	height: 35px;
 	padding-bottom: 0px;
     padding-right: 40px;
 }
@@ -29,12 +29,12 @@
 
 .navbar {
     position: fixed;
-    height: 50px;
+    height: 45px;
 
 }
 
 .navbar_container {
-    height: 50px;
+    height: 45px;
     padding: 0px;
     max-width: 98%
 }
@@ -49,10 +49,19 @@ body {
 
 @media (min-width: 992px) {
   body {
-    padding-top: 51px;
+    padding-top: 0px;
   }
 }
 
 .navbar_container {
     max-width: 98% !important;
 }
+
+.collapse.show {
+	background: #517399 ;
+}
+
+*, ::after, ::before {
+	box-sizing: content-box !important;
+}
+

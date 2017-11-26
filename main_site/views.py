@@ -16,8 +16,8 @@ class User(object):
 
 class BlogPost(object):
     #TODO: Implement
-    post_title = "Hello Blog Post!"
-    post_summary = 'This is a place holdering summary of a blog post... Stuff goes here... '
+    post_title = "Blog Posts Coming Soon"
+    post_summary = 'This is a place holdering summary of a blog post... Once the site is finished and I have some free time I will write my first blog post.'
     post_image = '/img/4-14_Marines_in_Fallujah.jpg'
     post_link = '#'
     post_date = 'Novemeber 10, 1775'
@@ -27,7 +27,7 @@ class BlogPost(object):
 
 class Links(object):
     # TODO: Implement
-    text = "Some Awesome Page"
+    text = "Some Link"
     url = 'http://example.org'
 
 @main_site.route('/main/<path:filename>')
@@ -45,7 +45,7 @@ def index():
 
     user = User()
     blog_posts = []
-    for i in range(5):
+    for i in range(1):
         blog_posts.append(BlogPost())
 
     temp_link_list = [Links() for i in range(2)]
@@ -53,11 +53,11 @@ def index():
                         links_col1=temp_link_list,
                         links_col2=temp_link_list)
 
-    html = render_template('index.html',
+    html = render_template('blog_home.html',
                            current_user = user,
                            blog_posts = blog_posts,
                            links=links_widget,
-                           active_page='home')
+                           active_page='blog')
     return html
 
 @main_site.route('/')
@@ -77,29 +77,4 @@ def under_construction():
 
     html = render_template('under_construction.html',
                            active_page=path)
-    return html
-
-@main_site.route('/nav')
-def navbar():
-
-    user = User()
-    blog_posts = []
-    for i in range(5):
-        blog_posts.append(BlogPost())
-
-    html = render_template('base.html',
-                           current_user = user,
-                           blog_posts = blog_posts)
-    return html
-
-@main_site.route('/datatable')
-def table():
-
-    df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
-    cols = df.columns
-    table = dict(title='Example DataTable', columns=cols, rows=[])
-
-    html = render_template('example_datatable.html',
-                           table=table,
-                           datapath='/api')
     return html

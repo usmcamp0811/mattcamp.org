@@ -60,7 +60,7 @@ def index():
                         links_col1=temp_link_list,
                         links_col2=temp_link_list)
     print(links_widget)
-    html = render_template('index.html',
+    html = render_template('blog_home.html',
                            current_user = user,
                            blog_posts = blog_posts,
                            links=links_widget)
