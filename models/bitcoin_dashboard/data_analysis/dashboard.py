@@ -133,7 +133,7 @@ def MarketPlot(tblCoins, coinHistory):
     tools = [hover2, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
 
     market_plot = figure(x_axis_type="datetime", title="Performance of the Coins I Own", plot_width=1000, plot_height=400,
-                         y_range=(0, 10000), tools=tools)
+                         y_range=(0, 12000), tools=tools)
     market_plot.grid.grid_line_alpha=0.2
     market_plot.xaxis.axis_label = "Date"
     market_plot.yaxis.axis_label = "Price (USD)"
@@ -233,7 +233,7 @@ def WalletPlot(coinHistory):
         ],
     )
     source = ColumnDataSource(data=totalDollars)
-    barheight = int(coinHistory['USD_In'].sum() + 1200)
+    barheight = int(coinHistory['USD_In'].sum() + 1500)
 
     coinBar = figure(plot_width=200, plot_height=800, tools=[hover], y_range=(0, barheight),toolbar_location=None)
 
