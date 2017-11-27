@@ -99,7 +99,7 @@ def GainLossPlot(tblGainLoss):
 
     tools = [hover, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
     gain_loss_plot = figure(x_axis_type="datetime", title="Net Performance Accross All Owned CryptoCurrencies",
-                            y_range=(-100, 1200), plot_width=1000, plot_height=400, tools=tools)
+                            y_range=(0, 1500), plot_width=1000, plot_height=400, tools=tools)
 
     gain_loss_plot.grid.grid_line_alpha=0.2
     gain_loss_plot.xaxis.axis_label = 'Date'
