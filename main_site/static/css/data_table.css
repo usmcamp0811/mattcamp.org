@@ -1,3 +1,12 @@
-.panel-heading {
-
+.bg-1 {
+	/*background-color: #1d3557;*/
+    /*background-color: #f1faee;*/
+	color: #555555;
+    /*background: url(../img/4-14_Marines_in_Fallujah.jpg) no-repeat !important;*/
+    padding-top:50px !important;
+    background-size:cover !important;
+    background-position:center center !important;
+    background-attachment:fixed !important;
+    background-blend-mode: multiply !important;
 }
+

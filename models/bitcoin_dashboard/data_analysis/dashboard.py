@@ -30,6 +30,16 @@ def getAllData(ndays=7, session=None):
     :param ndays: numbers of days back in time from now to get data
     :return:
     """
+    if session == None:
+        CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
+        CASSANDRA_PORT = 9042
+        CASSANDRA_DB = "cryptocoindb"
+
+        cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
+        session = cluster.connect(CASSANDRA_DB)
+        session.row_factory = pandas_factory
+        session.default_fetch_size = None
+
 
     coinHistory = getCurrentWalletDF(session=session)
     coinHistory['transaction_time'] = pd.to_datetime(coinHistory['transaction_time'])

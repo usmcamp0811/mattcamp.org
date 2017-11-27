@@ -81,7 +81,7 @@ body {
     border-radius: .50rem;
 }
 
-*, ::after, ::before {
+.navbar, ::after, ::before {
 	box-sizing: content-box !important;
 }
 

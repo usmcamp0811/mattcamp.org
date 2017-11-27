@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 import pandas as pd
 import numpy as np
 from flask_jsonpify import jsonpify
-
+from models.bitcoin_dashboard.data_analysis.dashboard import getAllData
 example_site = Blueprint('example_site',
                       __name__,
                       template_folder='templates',
@@ -41,8 +41,11 @@ def api():
     Example API route for use as an ajax data source
     :return:
     """
-    df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
-    return jsonify(dict(data=df.as_matrix().tolist()))
+    tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins = getAllData(ndays=2)
+    # df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
+    print(tblGainLoss.columns, tblDailyGainLoss.columns, coinHistory.columns, tblCoins.columns)
+    print(dict(data=tblCoins.astype(str).as_matrix().tolist()))
+    return jsonify(dict(data=tblCoins.astype(str).as_matrix().tolist()))
 
 
 @example_site.route('/example/blog_home')
@@ -73,20 +76,29 @@ def table():
     '''
     Example of how to use data tables to display a dataframe. Can either accept data pushed via AJAX data source
     or it can be passed data directly from a dataframe converted to a matrix
+
+    NOTE!: seems like DataTables has to have the dataframe converted to strings else it wont format currectly
     :return:
     '''
-    df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
-    cols = df.columns
-    table = dict(title='Example DataTable', columns=cols, rows=[])
+    # tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins = getAllData(ndays=2)
+    # data = tblCoins.as_matrix()
+    data =[]
+    # df = pd.read_csv('/media/mcamp/LocalSSHD/PythonProjects/Datasets/Bike-Sharing-Dataset/hour.csv')
+    cols = ['date', 'name', 'timestamp', 'label', 'price_btc', 'price_cny',
+            'price_eur', 'price_gbp', 'price_rur', 'price_usd', 'volume_24h',
+            'PriceDelta']
+    table = dict(title='Example DataTable', columns=cols, rows=data)
 
     html = render_template('example_datatable.html',
                            table=table,
-                           datapath='/api')
+                           datapath='/example/api',
+                           active_page='examples')
     return html
 
 @example_site.route('/example/test.json')
 def send_bc2():
     # df = pd.read_csv('/home/mcamp/PythonProjects/BitCoinDashboard/test.csv')
+    tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins = getAllData(ndays=7)
     N = 1024
     ix = np.arange(N)
     y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
@@ -96,5 +108,6 @@ def send_bc2():
 @example_site.route('/example/flot_lineplot')
 def plot_flot():
     html = render_template('flot_line_plot.html',
-                           path_to_data='/example/test.json')
+                           path_to_data='/example/test.json',
+                           active_page='examples')
     return html

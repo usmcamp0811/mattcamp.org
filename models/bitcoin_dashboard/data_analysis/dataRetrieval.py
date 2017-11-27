@@ -21,6 +21,44 @@ session = cluster.connect(CASSANDRA_DB)
 session.row_factory = pandas_factory
 session.default_fetch_size = None
 
+def getCoinPrices(coinname=None, dateFrom=None, dateTo=None, session=None, debug=False):
+    """
+    Function to return a single coins prices between a set of dates.
+    :param coinname: String value of the coin name in the format of WCI's API
+    :param dateFrom: string date in the format 2017-08-01
+    :param dateTo: string date in the format 2017-08-01
+    :return:
+    """
+    if session == None:
+        CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
+        CASSANDRA_PORT = 9042
+        CASSANDRA_DB = "cryptocoindb"
+
+        cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
+        session = cluster.connect(CASSANDRA_DB)
+        session.row_factory = pandas_factory
+        session.default_fetch_size = None
+
+    if dateTo == None:
+        dates = datesFromTo(DatesFrom=dateFrom, DatesTo=datetime.today())
+    else:
+        dates = datesFromTo(DatesFrom=dateFrom, DatesTo=dateTo)
+
+    dates = list2String(dates)
+    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_TABLE = "worldcoinindex"
+
+    qryCoins = """SELECT price_usd, timestamp FROM  {}.{} 
+                  WHERE date in ({})
+                  AND name = '{}';""".format(CASSANDRA_DB,CASSANDRA_TABLE, dates, coinname)
+
+    if debug:
+        print(qryCoins)
+    rslt = session.execute(qryCoins, timeout=None)
+    tblCoinPrices = rslt._current_rows
+    return tblCoinPrices
+
+
 def getUSDPriceWCI(coinname=None, date=None):
     """
     Gets the average pricer of a coin on a given date.

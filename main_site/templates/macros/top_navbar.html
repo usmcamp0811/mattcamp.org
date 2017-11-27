@@ -35,10 +35,14 @@
           <li class="nav-item {{ 'active' if active_page == 'resume' else '' }}">
               <a class="nav-link" href="/resume">Resume</a>
           </li>
-          <li class="nav-item {{ 'active' if active_page == 'examples' else '' }}">
-              <a class="nav-link" href="/examples">Examples</a>
-          </li>
 
+          <li class="nav-item dropdown {{ 'active' if active_page == 'examples' else '' }}">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Examples</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <a class="dropdown-item" href="/example/datatable">DataTables</a>
+              <a class="dropdown-item" href="/example/flot_lineplot">Flot Plot</a>
+            </div>
+          </li>
           </ul>
         </div>
       </div>

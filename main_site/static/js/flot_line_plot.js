@@ -1,6 +1,6 @@
 //Flot Line Chart from JSON servred by Flask
 $(document).ready(function() {
-    console.log("document ready");
+    console.log("document ready", data_path);
     var x = [];
     $.ajax({
       url: data_path,
@@ -8,42 +8,43 @@ $(document).ready(function() {
       async: false,
   success: function(data) {
     x = data
-
+    console.log(x)
   }
 });
-    plot();
-    console.log(x);
-    function plot() {
 
-        var options = {
-            series: {
-                lines: {
-                    show: true
-                },
-                points: {
-                    show: true
-                }
+plot()
+function plot() {
+
+    var options = {
+        series: {
+            lines: {
+                show: true
             },
-            grid: {
-                hoverable: true //IMPORTANT! this is needed for tooltip to work
-            },
-            yaxis: {
-                min: 0,
-                max: 60
-            },
-            xaxis: {
-                min: 0,
-                max: 1024
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "'%s' of %x.1 is %y.4",
+            points: {
+                show: true
             }
-        };
-        var plotObj = $.plot($("#flot-line-chart"), [{
-                data: x,
-                label: "Some sin wave made in Python."
-            }],
-            options);
-    }
+        },
+        grid: {
+            hoverable: true //IMPORTANT! this is needed for tooltip to work
+        },
+        yaxis: {
+            min: 7500,
+            max: 10000
+        },
+        xaxis: {
+            min: 0,
+            max: 800
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "'%s' of %x.1 is %y.4",
+        }
+    };
+    var plotObj = $.plot($("#flot-line-chart"), [{
+            data: x,
+            label: "Some sin wave made in Python."
+        }],
+        options);
+}
 });
+

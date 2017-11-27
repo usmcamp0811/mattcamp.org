@@ -14,6 +14,8 @@ from models.bitcoin_dashboard.data_analysis.dataRetrieval import *
 from models.bitcoin_dashboard.data_analysis.dashboard import *
 from bokeh.layouts import layout
 from bokeh.embed import components
+from datetime import datetime, timedelta
+from flask_jsonpify import jsonpify
 
 bitcoin_project = Blueprint('bitcoin_project',
                       __name__,
@@ -59,3 +61,30 @@ def dashboard():
         footer='false'
     )
     return encode_utf8(html)
+
+@bitcoin_project.route('/projects/api/coins_price_usd')
+def coin_price():
+    """
+    Gets the price of a coin over a span of time.
+    :return:
+    """
+    dt_today = datetime.today()
+    dt_yesterday = datetime.today() - timedelta(days=1)
+    coinname = request.args.get('coinname', default='Bitcoin', type=str)
+    dateTo = request.args.get('dateTo', default=dt_today.strftime('%Y-%m-%d'), type=str)
+    dateFrom = request.args.get('dateFrom', default=dt_yesterday.strftime('%Y-%m-%d'), type=str)
+
+    coinPrices = getCoinPrices(coinname=coinname, dateFrom=dateFrom, dateTo=dateTo, session=None, debug=True)
+    coinPrices = coinPrices.reset_index()
+
+    # return jsonify(dict(data=coinPrices.astype(str).as_matrix().tolist()))
+    data = jsonpify(np.array([coinPrices['index'], coinPrices['price_usd']]).T.tolist())
+    return data
+
+@bitcoin_project.route('/projects/coin_explorer')
+def coin_explorer():
+
+    html = render_template('coin_explorer.html',
+                           path_to_data='/projects/api/coins_price_usd',
+                           active_page='projects')
+    return html
