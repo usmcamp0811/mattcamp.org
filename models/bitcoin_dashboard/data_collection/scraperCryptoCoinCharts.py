@@ -32,7 +32,10 @@ def UpdatetCoinList(session=None, CASSANDRA_DB=None, output=False):
         coinlist['date'] = pd.to_datetime(coinlist['timestamp'], unit='s').dt.date
         coinlist['date'] = coinlist['date'].astype(str)
         # some reason they have a blank id in the first record! argh!!
-        df2cassandra(coinlist.loc[1:], CASSANDRA_DB, "coinlist_cccharts", session=session)
+        str_cols = [col for col in coinlist.columns if coinlist[col].dtypes == 'O']
+        coinlist[str_cols] = coinlist[str_cols].apply(lambda x: x.astype(str).str.lower())
+
+        df2cassandra(coinlist, CASSANDRA_DB, "coinlist_cccharts", session=session)
         if output:
             return coinlist.sort_values('volume_btc', ascending=False)
         print(coinlist['id'])
@@ -78,7 +81,10 @@ def getMultiTradingPairs(session=None, CASSANDRA_DB=None, coins=None, output=Fal
         tradingPairs['volume_first'] = tradingPairs['volume_first'].astype(float)
         tradingPairs['volume_second'] = tradingPairs['volume_second'].astype(float)
 
-        df2cassandra(tradingPairs.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "traiding_pairs", session=session)
+        str_cols = [col for col in tradingPairs.columns if tradingPairs[col].dtypes == 'O']
+        tradingPairs[str_cols] = tradingPairs[str_cols].apply(lambda x: x.astype(str).str.lower())
+
+        df2cassandra(tradingPairs, CASSANDRA_DB, "traiding_pairs", session=session)
         if output:
             return tradingPairs
     else:
@@ -91,7 +97,7 @@ if __name__ == "__main__":
 
     CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
     CASSANDRA_PORT = 9042
-    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_DB = "cryptocoindb2"
 
     cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
     session = cluster.connect(CASSANDRA_DB)

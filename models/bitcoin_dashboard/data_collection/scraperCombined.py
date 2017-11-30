@@ -18,7 +18,7 @@ def getCoinData():
 
     CASSANDRA_HOST = ['192.168.0.101', '192.168.0.114', '192.168.0.106']
     CASSANDRA_PORT = 9042
-    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_DB = "cryptocoindb2"
 
     cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
     session = cluster.connect(CASSANDRA_DB)

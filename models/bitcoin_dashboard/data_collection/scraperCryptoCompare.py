@@ -33,6 +33,8 @@ def updateCoinList():
     coinlist.TotalCoinSupply = pd.to_numeric(coinlist.TotalCoinSupply, errors='coerce')
     coinlist.TotalCoinsFreeFloat = pd.to_numeric(coinlist.TotalCoinsFreeFloat, errors='coerce')
     coinlist.TotalCoinsMined = pd.to_numeric(coinlist.TotalCoinsMined, errors='coerce')
+    str_cols = [col for col in coinlist.columns if coinlist[col].dtypes == 'O']
+    coinlist[str_cols] = coinlist[str_cols].apply(lambda x: x.astype(str).str.lower())
     df2cassandra(coinlist, CASSANDRA_DB, "coinlist", session=session)
     print("Done.")
 
@@ -56,7 +58,10 @@ def getCoinPrices(coins, currency="USD"):
         coin = pd.Series(r).index
         curr = pd.Series([currency for x in range(len(r))])
         dfPrice = pd.DataFrame({'Coin': coin, 'Price': price, 'Timestamp': timestamp, 'Currency': curr})
-        df2cassandra(dfPrice.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "tblprice", session=session)
+        str_cols = [col for col in dfPrice.columns if dfPrice[col].dtypes == 'O']
+        dfPrice[str_cols] = dfPrice[str_cols].apply(lambda x: x.astype(str).str.lower())
+
+        df2cassandra(dfPrice, CASSANDRA_DB, "tblprice", session=session)
         time.sleep(100)
         # print(">", end="")
     print("||Done...")
@@ -81,6 +86,12 @@ def getCoinSnapshot(coin):
         AggregatedData['NetHashesPerSecond'] = r['Data']['NetHashesPerSecond']
         AggregatedData['TotalCoinsMined'] = r['Data']['TotalCoinsMined']
         AggregatedData['BlockReward'] = r['Data']['BlockReward']
+
+        str_cols = [col for col in Exchanges.columns if Exchanges[col].dtypes == 'O']
+        Exchanges[str_cols] = Exchanges[str_cols].apply(lambda x: x.astype(str).str.lower())
+
+        str_cols = [col for col in AggregatedData.columns if AggregatedData[col].dtypes == 'O']
+        AggregatedData[str_cols] = AggregatedData[str_cols].apply(lambda x: x.astype(str).str.lower())
 
         df2cassandra(Exchanges, CASSANDRA_DB, "exchanges", session=session)
         df2cassandra(AggregatedData, CASSANDRA_DB, "aggregated_data", session=session)

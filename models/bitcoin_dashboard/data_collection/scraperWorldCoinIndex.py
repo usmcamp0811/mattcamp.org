@@ -23,9 +23,10 @@ def getWCI(session=None, CASSANDRA_DB=None):
         wci['date'] = wci['date'].astype(str)
         wci['Timestamp'] = wci['Timestamp'] * 1000
 
-        wci = wci.apply(lambda x: x.astype(str).str.lower())
-        print(wci.to_string())
-        df2cassandra(wci, "cryptocoindb", "worldcoinindex", session=session)
+        str_cols = [col for col in wci.columns if wci[col].dtypes == 'O']
+        wci[str_cols] = wci[str_cols].apply(lambda x: x.astype(str).str.lower())
+        # print(wci.to_string())
+        df2cassandra(wci, "cryptocoindb2", "worldcoinindex", session=session)
     else:
         print("None 200 Status Code Returned: {}".format(request.status_code))
         #TODO: Write error logger
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     while True:
 
         CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
-        CASSANDRA_DB = "cryptocoindb"
+        CASSANDRA_DB = "cryptocoindb2"
         cluster = Cluster(CASSANDRA_HOST)
 
         session = cluster.connect()

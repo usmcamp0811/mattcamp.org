@@ -18,14 +18,17 @@ def getBittrexMarketSummary(session=None, CASSANDRA_DB=None):
     market_summaries = bittrex.get_market_summaries()
     market_summaries = pd.DataFrame(market_summaries['result'])
 
-    df2cassandra(market_summaries.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "bittrex_market_summary", session=session)
+    str_cols = [col for col in market_summaries.columns if market_summaries[col].dtypes == 'O']
+    market_summaries[str_cols] = market_summaries[str_cols].apply(lambda x: x.astype(str).str.lower())
+
+    df2cassandra(market_summaries, CASSANDRA_DB, "bittrex_market_summary", session=session)
 
 
 if __name__ == "__main__":
 
     CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
     CASSANDRA_PORT = 9042
-    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_DB = "cryptocoindb2"
 
     cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
 
