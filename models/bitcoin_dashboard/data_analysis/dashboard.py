@@ -8,18 +8,17 @@ from bokeh.palettes import Category20
 from bokeh.models import LassoSelectTool, WheelZoomTool, Span, \
     ColumnDataSource, HoverTool, Label
 
-colorDict = {'Aragon': '#1f77b4',
-             'Bitcoin': '#aec7e8',
-             'Civic': '#ff7f0e',
-             'Dash': '#ffbb78',
-             'Eos': '#2ca02c',
-             'Ethereum': '#98df8a',
-             'Gnosis': '#d62728',
-             'LiteCoin': '#ff9896',
-            'Litecoin': '#ff9896',
-             'Decred': '#1CC726',
-	         'Omisego': '#77267d',
-             'Bitcoincash': '#8191A2'}
+colorDict = {'aragon': '#1f77b4',
+             'bitcoin': '#aec7e8',
+             'civic': '#ff7f0e',
+             'dash': '#ffbb78',
+             'eos': '#2ca02c',
+             'ethereum': '#98df8a',
+             'gnosis': '#d62728',
+             'litecoin': '#ff9896',
+             'decred': '#1CC726',
+	         'omisego': '#77267d',
+             'bitcoincash': '#8191A2'}
 
 
 def dt2ut(dt):
@@ -34,7 +33,7 @@ def getAllData(ndays=7, session=None):
     if session == None:
         CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
         CASSANDRA_PORT = 9042
-        CASSANDRA_DB = "cryptocoindb"
+        CASSANDRA_DB = "cryptocoindb2"
 
         cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
         session = cluster.connect(CASSANDRA_DB)
@@ -43,6 +42,10 @@ def getAllData(ndays=7, session=None):
 
 
     coinHistory = getCurrentWalletDF(session=session)
+
+    str_cols = [col for col in coinHistory.columns if coinHistory[col].dtypes == 'O']
+    coinHistory[str_cols] = coinHistory[str_cols].apply(lambda x: x.astype(str).str.lower())
+
     coinHistory['transaction_time'] = pd.to_datetime(coinHistory['transaction_time'])
 
     coinlist = list2String(set(coinHistory['name']))
@@ -265,3 +268,21 @@ def WalletPlot(coinHistory):
     coinBar.ygrid.grid_line_color = None
 
     return coinBar
+
+
+if __name__ == "__main__":
+    def pandas_factory(colnames, rows):
+        return pd.DataFrame(rows, columns=colnames)
+
+
+    CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
+    CASSANDRA_PORT = 9042
+    CASSANDRA_DB = "cryptocoindb2"
+
+    cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
+    session = cluster.connect(CASSANDRA_DB)
+    session.row_factory = pandas_factory
+    session.default_fetch_size = None
+
+    tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins = getAllData(1, session)
+    print(tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins)

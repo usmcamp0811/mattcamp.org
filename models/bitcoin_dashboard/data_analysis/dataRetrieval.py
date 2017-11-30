@@ -14,7 +14,7 @@ def pandas_factory(colnames, rows):
 
 CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
 CASSANDRA_PORT = 9042
-CASSANDRA_DB = "cryptocoindb"
+CASSANDRA_DB = "cryptocoindb2"
 
 cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
 session = cluster.connect(CASSANDRA_DB)
@@ -32,7 +32,7 @@ def getCoinPrices(coinname=None, dateFrom=None, dateTo=None, session=None, debug
     if session == None:
         CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
         CASSANDRA_PORT = 9042
-        CASSANDRA_DB = "cryptocoindb"
+        CASSANDRA_DB = "cryptocoindb2"
 
         cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
         session = cluster.connect(CASSANDRA_DB)
@@ -45,7 +45,7 @@ def getCoinPrices(coinname=None, dateFrom=None, dateTo=None, session=None, debug
         dates = datesFromTo(DatesFrom=dateFrom, DatesTo=dateTo)
 
     dates = list2String(dates)
-    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_DB = "cryptocoindb2"
     CASSANDRA_TABLE = "worldcoinindex"
 
     qryCoins = """SELECT price_usd, timestamp FROM  {}.{} 
@@ -69,8 +69,8 @@ def getUSDPriceWCI(coinname=None, date=None):
     """
     purchaseDate = date
     date = date
-    coinname = coinname
-    CASSANDRA_DB = "cryptocoindb"
+    coinname = coinname.lower()
+    CASSANDRA_DB = "cryptocoindb2"
     CASSANDRA_TABLE = "worldcoinindex"
     qryCoins = """SELECT price_usd, timestamp FROM  {}.{} 
                   WHERE date = '{}'
@@ -93,7 +93,7 @@ def getBitCoinPriceCC(coinname=None, date=None):
     # needs better documentation at the very least!
     date = date
     coinname = coinname.lower()
-    CASSANDRA_DB = "cryptocoindb"
+    CASSANDRA_DB = "cryptocoindb2"
     CASSANDRA_TABLE = "coinlist_cccharts"
     qryCoins = """SELECT price_btc, timestamp FROM  {}.{} 
                   WHERE date = '{}'
@@ -123,7 +123,7 @@ def getMyCoinDeltas(strName=None, floatPriceNow=None, dateTime=None, dfCoinHisto
     """
     #TODO: Ensure this can handle if/when I sell bitcoins/altcoins
 
-    dfTransactions = dfCoinHistory[dfCoinHistory['name'] == strName] # fileters out just that coins data
+    dfTransactions = dfCoinHistory[dfCoinHistory['name'] == strName.lower()] # fileters out just that coins data
     if dfTransactions.shape[0] == 0:
         print('You do not own that coin.')
         return None
@@ -137,19 +137,19 @@ def getMyCoinDeltas(strName=None, floatPriceNow=None, dateTime=None, dfCoinHisto
         return coinValue
 
 def getCurrentPrice(strName=None):
+    strName = strName.lower()
     # shitty hack to fix LiteCoin's case change in the data... I need to migrate the data to another table with all lower case
-    if strName == 'LiteCoin':
-        strName = 'Litecoin'
-    strCurrentDate = time.strftime('%Y-%m-%d')
-    CASSANDRA_DB = "cryptocoindb"
+    strCurrentDate = datetime.utcnow().strftime('%Y-%m-%d')
+    CASSANDRA_DB = "cryptocoindb2"
     CASSANDRA_TABLE = "worldcoinindex"
     qryCoins = """SELECT * 
                   FROM {}.{}
                   WHERE date='{}' AND name='{}' LIMIT 1;""".format(CASSANDRA_DB, CASSANDRA_TABLE, strCurrentDate, strName)
 
-
+    # print(qryCoins)
     rslt = session.execute(qryCoins, timeout=None)
     tblCoins = rslt._current_rows
+    # print(tblCoins.shape[0])
     if tblCoins.shape[0] != 1:
         print('getCurrentPrice({}): Error'.format(strName))
         print('Either more than one record was returned or we could not find that coin in the DB.')
@@ -214,8 +214,8 @@ def datesFromTo(DatesFrom=None, DatesTo=datetime.today()):
         datelist.append(date.strftime('%Y-%m-%d'))
     return datelist
 
-def getCurrentWalletDF(session=None):
-    coinHistory = "SELECT * FROM cryptocoindb.transactions;"
+def getCurrentWalletDF(session=None, db='cryptocoindb2'):
+    coinHistory = "SELECT * FROM {}.transactions;".format(db)
     rslt = session.execute(coinHistory, timeout=None)
     coinHistory = rslt._current_rows
 
@@ -237,3 +237,6 @@ This could help with load speeds
 """
 
 
+if __name__ == "__main__":
+
+    print(getCurrentPrice(strName='bitcoin'))
