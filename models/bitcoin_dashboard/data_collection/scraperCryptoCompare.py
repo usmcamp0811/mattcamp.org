@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 from cassandra.cluster import Cluster
 
-from data_collection.Create_CQL import *
+from models.bitcoin_dashboard.data_collection.Create_CQL import *
 
 
 def pandas_factory(colnames, rows):
@@ -56,7 +56,7 @@ def getCoinPrices(coins, currency="USD"):
         coin = pd.Series(r).index
         curr = pd.Series([currency for x in range(len(r))])
         dfPrice = pd.DataFrame({'Coin': coin, 'Price': price, 'Timestamp': timestamp, 'Currency': curr})
-        df2cassandra(dfPrice, CASSANDRA_DB, "tblprice", session=session)
+        df2cassandra(dfPrice.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "tblprice", session=session)
         time.sleep(100)
         # print(">", end="")
     print("||Done...")

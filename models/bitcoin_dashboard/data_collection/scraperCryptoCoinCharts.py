@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 from cassandra.cluster import Cluster
 
-from data_collection.Create_CQL import *
+from models.bitcoin_dashboard.data_collection.Create_CQL import *
 
 
 def pandas_factory(colnames, rows):
@@ -78,7 +78,7 @@ def getMultiTradingPairs(session=None, CASSANDRA_DB=None, coins=None, output=Fal
         tradingPairs['volume_first'] = tradingPairs['volume_first'].astype(float)
         tradingPairs['volume_second'] = tradingPairs['volume_second'].astype(float)
 
-        df2cassandra(tradingPairs, CASSANDRA_DB, "traiding_pairs", session=session)
+        df2cassandra(tradingPairs.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "traiding_pairs", session=session)
         if output:
             return tradingPairs
     else:

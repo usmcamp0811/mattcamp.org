@@ -137,6 +137,9 @@ def getMyCoinDeltas(strName=None, floatPriceNow=None, dateTime=None, dfCoinHisto
         return coinValue
 
 def getCurrentPrice(strName=None):
+    # shitty hack to fix LiteCoin's case change in the data... I need to migrate the data to another table with all lower case
+    if strName == 'LiteCoin':
+        strName = 'Litecoin'
     strCurrentDate = time.strftime('%Y-%m-%d')
     CASSANDRA_DB = "cryptocoindb"
     CASSANDRA_TABLE = "worldcoinindex"

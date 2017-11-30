@@ -1,9 +1,9 @@
 import sys
 sys.path.append("..")
-from data_collection.scraperCryptoCoinCharts import *
-from data_collection.scraperCryptoCompare import *
-from data_collection.scraperWorldCoinIndex import *
-from data_collection.scraperBittrex import *
+from models.bitcoin_dashboard.data_collection.scraperCryptoCoinCharts import *
+from models.bitcoin_dashboard.data_collection.scraperCryptoCompare import *
+from models.bitcoin_dashboard.data_collection.scraperWorldCoinIndex import *
+from models.bitcoin_dashboard.data_collection.scraperBittrex import *
 import os, sys
 # from daemonize import Daemonize
 

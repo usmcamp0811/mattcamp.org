@@ -6,7 +6,7 @@ import time
 import requests
 from cassandra.cluster import Cluster
 
-from data_collection.Create_CQL import *
+from models.bitcoin_dashboard.data_collection.Create_CQL import *
 
 '''
 This is the script to be run as a daemon to scrape bitcoin data and load it into Cassandra
@@ -22,7 +22,9 @@ def getWCI(session=None, CASSANDRA_DB=None):
         wci['date'] = pd.to_datetime(wci['Timestamp'], unit='s').dt.date
         wci['date'] = wci['date'].astype(str)
         wci['Timestamp'] = wci['Timestamp'] * 1000
-        # print(wci)
+
+        wci = wci.apply(lambda x: x.astype(str).str.lower())
+        print(wci.to_string())
         df2cassandra(wci, "cryptocoindb", "worldcoinindex", session=session)
     else:
         print("None 200 Status Code Returned: {}".format(request.status_code))
@@ -42,6 +44,7 @@ if __name__ == "__main__":
         session = cluster.connect()
 
         print("Getting WorldCoinIndex Data @ " + str(datetime.datetime.now()))
+
         getWCI(session=session, CASSANDRA_DB=CASSANDRA_DB)
 
         print("Done")

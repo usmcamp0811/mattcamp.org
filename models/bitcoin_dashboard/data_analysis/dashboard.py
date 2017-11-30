@@ -16,6 +16,7 @@ colorDict = {'Aragon': '#1f77b4',
              'Ethereum': '#98df8a',
              'Gnosis': '#d62728',
              'LiteCoin': '#ff9896',
+            'Litecoin': '#ff9896',
              'Decred': '#1CC726',
 	         'Omisego': '#77267d',
              'Bitcoincash': '#8191A2'}

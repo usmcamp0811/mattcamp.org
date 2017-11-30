@@ -3,10 +3,10 @@ sys.path.append("..")
 
 import datetime
 
-from bittrex.bittrex import Bittrex
+from models.bitcoin_dashboard.data_collection.bittrex.bittrex import Bittrex
 from cassandra.cluster import Cluster
 
-from data_collection.Create_CQL import *
+from models.bitcoin_dashboard.data_collection.Create_CQL import *
 
 """
 NOTE: The pip install of the Bittrex package will not work properly because it is designed for Python2. 
@@ -18,7 +18,7 @@ def getBittrexMarketSummary(session=None, CASSANDRA_DB=None):
     market_summaries = bittrex.get_market_summaries()
     market_summaries = pd.DataFrame(market_summaries['result'])
 
-    df2cassandra(market_summaries, CASSANDRA_DB, "bittrex_market_summary", session=session)
+    df2cassandra(market_summaries.apply(lambda x: x.astype(str).str.lower()), CASSANDRA_DB, "bittrex_market_summary", session=session)
 
 
 if __name__ == "__main__":
