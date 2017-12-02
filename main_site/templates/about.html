@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% from "macros/blog_post_home.html" import blog_post_home with context %}
 {% from "macros/search_widget.html" import search_widget with context %}
+{% from "macros/footer.html" import footer with context %}
 {% from "macros/widget_with_links.html" import two_col_links_widget with context %}
 {% block styles %}
 {{super()}}
@@ -21,12 +22,6 @@
 
 {% block footer %}
 {{super()}}
-<footer class="footer container-fluid text-center">
-    <span class="text-muted">
-            <h5>Find me on</h5>
-<a target="_blank" href="https://github.com/usmcamp0811"><img src="/main/img/github-256.png" class="find_me"></a>
-<a target="_blank" href="https://www.linkedin.com/in/matthewjcamp/"><img src="/main/img/linkedin_circle_black-256.png" class="find_me"></a>
-    </span>
-</footer>
+{{footer()}}
 {% endblock %}
 {% endblock %}
