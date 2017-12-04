@@ -20,4 +20,4 @@ flask-bootstrap
 flask-principal
 flask-nav
 flask-jsonpify
-
+flask-socketio

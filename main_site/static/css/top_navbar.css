@@ -25,12 +25,12 @@
 }
 
 body {
-    padding-top: 51px;
+    padding-top: 45px;
 }
 
 @media (min-width: 992px) {
     body {
-        padding-top: 50px;
+        padding-top: 45px;
     }
     .dropdown-menu {
         position: absolute;
@@ -51,4 +51,35 @@ body {
         border: 1px solid rgba(0,0,0,.15);
         border-radius: .50rem;
     }
+}
+
+.navbar_container {
+    max-width: 98% !important;
+}
+
+.collapse.show {
+	background: #517399 ;
+    border-radius: .50rem;
+}
+
+.navbar, ::after, ::before {
+	box-sizing: content-box !important;
+}
+
+[role="button"], a, area, button, input, label, select, summary, textarea {
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	text-align: center;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+	color: #16181b;
+	text-decoration: none;
+	background-color: #f8f9fa;
+	width: inherit;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+	color: #fff !important;
 }

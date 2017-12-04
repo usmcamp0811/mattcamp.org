@@ -16,6 +16,9 @@ from bokeh.layouts import layout
 from bokeh.embed import components
 from datetime import datetime, timedelta
 from flask_jsonpify import jsonpify
+import json
+from flask_socketio import emit
+from bitcoin_project.api import socketio
 
 bitcoin_project = Blueprint('bitcoin_project',
                       __name__,
@@ -87,4 +90,14 @@ def coin_explorer():
     html = render_template('coin_explorer.html',
                            path_to_data='/projects/api/coins_price_usd',
                            active_page='projects')
+    return html
+
+@bitcoin_project.route('/projects/api/current_price/<coin>')
+def coin_api(coin):
+    """
+    An api for getting my current coin data
+    :return:
+    """
+
+    html = render_template('coin_socket.html', async_mode=socketio.async_mode)
     return html

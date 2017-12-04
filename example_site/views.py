@@ -28,8 +28,9 @@ class BlogPost(object):
 
 class Links(object):
     # TODO: Implement
-    text = "Some Awesome Page"
+    title = "Some Awesome Page"
     url = 'http://example.org'
+    icon = 'fa-star'
 
 @example_site.route('/example/<path:filename>')
 def base_static(filename):
@@ -110,4 +111,22 @@ def plot_flot():
     html = render_template('flot_line_plot.html',
                            path_to_data='/example/test.json',
                            active_page='examples')
+    return html
+
+@example_site.route('/example/sidebar')
+def under_construction2():
+    path = 'examples'
+    link = Links()
+    links = [link for x in range(5)]
+    html = render_template('example_sidebar_page.html',
+                           active_page=path,
+                           sidelinks=links)
+    return html
+
+@example_site.route('/example/socket')
+def docket_test():
+    path = 'examples'
+    link = Links()
+    links = [link for x in range(5)]
+    html = render_template('socket_io_example.html')
     return html

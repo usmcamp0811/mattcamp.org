@@ -214,15 +214,36 @@ def datesFromTo(DatesFrom=None, DatesTo=datetime.today()):
         datelist.append(date.strftime('%Y-%m-%d'))
     return datelist
 
-def getCurrentWalletDF(session=None, db='cryptocoindb2'):
-    coinHistory = "SELECT * FROM {}.transactions;".format(db)
+def getCurrentWalletDF(session=None, db='cryptocoindb2', coin=None):
+    """
+    Function get all the transaction history for a given coin or all coins owned. Then it gets the current price and
+    calculates the ROI etc..
+    :param session: the Cassandra Session
+    :param db: the DB the data is in..
+    :param coin: the coin name if none it will get all
+    :return: a dataframe with coin data
+    """
+
+    if session == None:
+        CASSANDRA_HOST = ['192.168.0.106', '192.168.0.101']
+        CASSANDRA_PORT = 9042
+
+        cluster = Cluster(contact_points=CASSANDRA_HOST, port=CASSANDRA_PORT)
+        session = cluster.connect(db)
+        session.row_factory = pandas_factory
+        session.default_fetch_size = None
+
+    if coin:
+        coinHistory = "SELECT * FROM {}.transactions WHERE name='{}' ALLOW FILTERING;".format(db,coin) # I know I should restructure the table but its not gonna be big.. yet.. sorry future self
+    else:
+        coinHistory = "SELECT * FROM {}.transactions;".format(db)
     rslt = session.execute(coinHistory, timeout=None)
     coinHistory = rslt._current_rows
 
     coinHistory['USD_In'] = coinHistory['price_at_transaction'] * coinHistory['coins_transacted'] #wallet value at purchase
     coinHistory['CurrentPrice'] = coinHistory.apply(lambda row: getCurrentPrice(row['name']), axis=1)
     coinHistory['CurrentWalletVallue'] = coinHistory['CurrentPrice'] * coinHistory['coins_transacted']
-    # my times are in -5 GMT/ CST time so just adjusting to put all in a common timezone.
+    # my times are in -5 GMT/ CST time so just adjusting to put all in a common timezone. really should just make everything UTC but ehh.. later
     coinHistory['transaction_time'] = pd.to_datetime(coinHistory['transaction_time']) + pd.Timedelta('6 hours')
 
     return coinHistory
