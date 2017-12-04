@@ -92,8 +92,8 @@ def coin_explorer():
                            active_page='projects')
     return html
 
-@bitcoin_project.route('/projects/api/current_price/<coin>')
-def coin_api(coin):
+@bitcoin_project.route('/projects/api/current_price/')
+def coin_api():
     """
     An api for getting my current coin data
     :return:

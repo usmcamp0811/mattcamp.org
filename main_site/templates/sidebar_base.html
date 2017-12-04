@@ -1,0 +1,30 @@
+{% extends "./base.html" %}
+{% from "macros/blog_post_home.html" import blog_post_home with context %}
+{% from "macros/search_widget.html" import search_widget with context %}
+{% from "macros/widget_with_links.html" import two_col_links_widget with context %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="/main/css/side_navbar.css">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row d-flex d-md-block flex-nowrap wrapper">
+        <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+                <div class="list-group border-0 card text-center text-md-left">
+                    {% for item in sidelinks %}
+                <a href="{{item.url}}" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa {{item.icon}}"></i> <span class="d-none d-md-inline">{{item.title}}</span></a>
+                    {% endfor %}
+            </div>
+        </div>
+        <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+            {% block side_navbar_page_content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    {% block footer %}
+    {% endblock %}
+</div>
+{% endblock %}
