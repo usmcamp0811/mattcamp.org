@@ -55,7 +55,13 @@ def getAllData(ndays=7, session=None):
     datelist = list2String(datelist[-ndays:]) #only get last 7 days
     # random_limit = np.random.randint(1000, size=1)[0]
     where = "date IN ({}) AND name IN ({})".format(datelist, coinlist)
-    tblCoins = simpleSelectCQL("worldcoinindex", where=where)
+    try:
+        where = "date IN ({}) AND name IN ({})".format(datelist, coinlist)
+        tblCoins = simpleSelectCQL("worldcoinindex", where=where)
+    except:
+        print('It likely timed out so lets try again with fewer days...')
+        where = "date IN ({}) AND name IN ({})".format(datelist[:int(len(datelist)/2)], coinlist)
+        tblCoins = simpleSelectCQL("worldcoinindex", where=where)
     tblCoins['PriceDelta'] = tblCoins.apply(
         lambda row: getMyCoinDeltas(row['name'], row['price_usd'], row['timestamp'], coinHistory), axis=1)
 
@@ -103,7 +109,7 @@ def GainLossPlot(tblGainLoss):
 
     tools = [hover, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
     gain_loss_plot = figure(x_axis_type="datetime", title="Net Performance Accross All Owned CryptoCurrencies",
-                            y_range=(0, 1900), plot_width=1000, plot_height=400, tools=tools)
+                            y_range=(0, 2500), plot_width=1000, plot_height=400, tools=tools)
 
     gain_loss_plot.grid.grid_line_alpha=0.2
     gain_loss_plot.xaxis.axis_label = 'Date'
@@ -137,7 +143,7 @@ def MarketPlot(tblCoins, coinHistory):
     tools = [hover2, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
 
     market_plot = figure(x_axis_type="datetime", title="Performance of the Coins I Own", plot_width=1000, plot_height=400,
-                         y_range=(0, 15000), tools=tools)
+                         y_range=(0, 18000), tools=tools)
     market_plot.grid.grid_line_alpha=0.2
     market_plot.xaxis.axis_label = "Date"
     market_plot.yaxis.axis_label = "Price (USD)"
@@ -237,9 +243,9 @@ def WalletPlot(coinHistory):
         ],
     )
     source = ColumnDataSource(data=totalDollars)
-    barheight = int(coinHistory['USD_In'].sum() + 1800)
 
-    coinBar = figure(plot_width=200, plot_height=800, tools=[hover], y_range=(0, barheight),toolbar_location=None)
+    total_balance = int(coinHistory['CurrentWalletVallue'].sum())
+    coinBar = figure(plot_width=200, plot_height=800, tools=[hover], y_range=(0, total_balance + 500),toolbar_location=None)
 
 
     coinBar.vbar(x='Position', width=0.5, bottom='PriceStart',

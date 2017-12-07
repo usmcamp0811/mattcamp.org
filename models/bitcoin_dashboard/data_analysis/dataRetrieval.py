@@ -188,10 +188,11 @@ def simpleSelectCQL(CASSANDRA_TABLE, CASSANDRA_DB=CASSANDRA_DB,fields='*', where
     try:
         rslt = session.execute(query, timeout=None)
         table = rslt._current_rows
+        return table
     except Exception as e:
         print(query)
         print('\n\n', e)
-    return table
+        raise IOError
 
 def list2String(list):
     return "'"+"', '".join(list)+"'"
