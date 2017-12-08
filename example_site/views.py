@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 import pandas as pd
 import numpy as np
 from flask_jsonpify import jsonpify
-from models.bitcoin_dashboard.data_analysis.dashboard import getAllData
+from models.bitcoin_dashboard.data_analysis.dashboard import getAllData, getCoinPrices
 example_site = Blueprint('example_site',
                       __name__,
                       template_folder='templates',
@@ -99,12 +99,17 @@ def table():
 @example_site.route('/example/test.json')
 def send_bc2():
     # df = pd.read_csv('/home/mcamp/PythonProjects/BitCoinDashboard/test.csv')
-    tblGainLoss, tblDailyGainLoss, coinHistory, tblCoins = getAllData(ndays=7)
-    N = 1024
-    ix = np.arange(N)
-    y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
-    x = range(0,N)
-    return jsonpify(np.array([x, y]).T.tolist())
+    coindata = getCoinPrices(coinname='bitcoin', dateFrom='2017-12-06', dateTo=None, session=None, debug=False)
+    # N = 1024
+    # ix = np.arange(N)
+    # y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
+    # x = range(0,N)
+    # data = dict(X= x, Y=y)
+    coindata.columns = ['Y', 'X']
+    coindata = coindata.sort_values(by=['X'])
+    return coindata.to_json(orient='records')
+    # return jsonpify(np.array([x, y]).T.tolist())
+
 
 @example_site.route('/example/flot_lineplot')
 def plot_flot():
