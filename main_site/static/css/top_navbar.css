@@ -9,7 +9,8 @@
 #topnav .navbar_container {
     height: 45px;
     padding: 0px;
-    max-width: 98% !important;
+    padding-right: auto;
+    max-width: 95% !important;
 }
 
 .navbar {

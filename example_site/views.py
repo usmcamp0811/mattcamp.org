@@ -115,6 +115,11 @@ def plot_flot():
                            active_page='examples'
                            )
 
+@example_site.route('/example/neo4j')
+def neo4j():
+    return render_template('Neo4j_tutorial.html',
+                           active_page='examples'
+                           )
 
 @example_site.route('/example/sidebar')
 def under_construction2():
