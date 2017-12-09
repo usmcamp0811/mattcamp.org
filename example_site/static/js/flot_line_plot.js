@@ -15,7 +15,7 @@ $(document).ready(function() {
     plot_data = data
   }
 });
-console.log(d3.min(plot_data, function(d) { return d.X; }));
+
 
 var yaxis = {"Min":d3.min(plot_data, function(d) { return d.Y; }),
              "Max":d3.max(plot_data, function(d) { return d.Y; })};
@@ -26,8 +26,6 @@ var result = [[]];
 
 for(key in plot_data)
     result.push([plot_data[key].X, plot_data[key].Y]);
-
-console.log(yaxis.Min, yaxis.Max, xaxis.Min, xaxis.Max);
 
 
 //    actual plot stuff

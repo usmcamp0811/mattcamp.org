@@ -96,27 +96,25 @@ def table():
                            active_page='examples')
     return html
 
-@example_site.route('/example/test.json')
-def send_bc2():
-    # df = pd.read_csv('/home/mcamp/PythonProjects/BitCoinDashboard/test.csv')
-    coindata = getCoinPrices(coinname='bitcoin', dateFrom='2017-12-06', dateTo=None, session=None, debug=False)
-    # N = 1024
-    # ix = np.arange(N)
-    # y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
-    # x = range(0,N)
-    # data = dict(X= x, Y=y)
-    coindata.columns = ['Y', 'X']
-    coindata = coindata.sort_values(by=['X'])
-    return coindata.to_json(orient='records')
-    # return jsonpify(np.array([x, y]).T.tolist())
 
+@example_site.route('/example/test.json')
+def send_sinwave():
+    N = 1024
+    ix = np.arange(N)
+    y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
+    x = range(0, N)
+    data = dict(X=x, Y=y)
+    data = pd.DataFrame(data)
+    print(data.to_latex())
+    return data.to_json(orient='records')
 
 @example_site.route('/example/flot_lineplot')
 def plot_flot():
-    html = render_template('flot_line_plot.html',
+    return render_template('FlotPlot_LineChart_Example_with_AJAX.html',
                            path_to_data='/example/test.json',
-                           active_page='examples')
-    return html
+                           active_page='examples'
+                           )
+
 
 @example_site.route('/example/sidebar')
 def under_construction2():
