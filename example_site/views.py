@@ -105,7 +105,7 @@ def send_sinwave():
     x = range(0, N)
     data = dict(X=x, Y=y)
     data = pd.DataFrame(data)
-    print(data.to_latex())
+
     return data.to_json(orient='records')
 
 @example_site.route('/example/flot_lineplot')

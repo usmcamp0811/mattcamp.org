@@ -22,10 +22,10 @@ var yaxis = {"Min":d3.min(plot_data, function(d) { return d.Y; }),
 var xaxis = {"Min":d3.min(plot_data, function(d) { return d.X; }),
              "Max":d3.max(plot_data, function(d) { return d.X; })};
 
-var result = [[]];
+var data_to_plot = [[]];
 
 for(key in plot_data)
-    result.push([plot_data[key].X, plot_data[key].Y]);
+    data_to_plot.push([plot_data[key].X, plot_data[key].Y]);
 
 
 //    actual plot stuff
