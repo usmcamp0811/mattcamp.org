@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, send_from_directory, jsonify
+from flask import Flask, Blueprint, render_template, send_from_directory, jsonify, url_for
 from flask_bootstrap import Bootstrap
 import pandas as pd
 import numpy as np
@@ -51,7 +51,6 @@ def api():
     print(dict(data=tblCoins.astype(str).as_matrix().tolist()))
     return jsonify(dict(data=tblCoins.astype(str).as_matrix().tolist()))
 
-
 @example_site.route('/example/blog_home')
 def index():
     """
@@ -73,7 +72,6 @@ def index():
                            blog_posts = blog_posts,
                            links=links_widget)
     return html
-
 
 @example_site.route('/example/datatable')
 def table():
@@ -98,13 +96,6 @@ def table():
                            datapath='/example/api',
                            active_page='examples')
     return html
-
-
-def set_default(obj):
-    if isinstance(obj, set):
-        return list(obj)
-    raise TypeError
-
 
 @example_site.route('/example/test1.json')
 def send_sinwave1():
@@ -137,9 +128,9 @@ def send_sinwave():
 @example_site.route('/example/flot_lineplot')
 def plot_flot():
     return render_template('FlotPlot_LineChart_Example_with_AJAX.html',
-                           path_to_data='/example/test.json',
-                           path_to_data2a='/example/test1.json',
-                           path_to_data2b='/example/test2.json',
+                           path_to_data=url_for('example_site.send_sinwave'),
+                           path_to_data2a=url_for('example_site.send_sinwave1'),
+                           path_to_data2b=url_for('example_site.send_sinwave2'),
                            active_page='examples'
                            )
 
