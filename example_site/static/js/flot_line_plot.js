@@ -64,6 +64,3 @@ function plot() {
         options);
 }
 });
-
-
-

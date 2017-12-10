@@ -218,16 +218,204 @@
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3">
-    <pre>
-        <span>
+<div class=" highlight hl-ipython3"><pre>
+    <span>
 
             <div class="flot-chart">
                 <div class="flot-chart-content" id="flot-line-chart"></div>
             </div>
 
 
-        </span>
+    </span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Multiple-Line-Series">Multiple Line Series<a class="anchor-link" href="#Multiple-Line-Series">&#182;</a></h2><p>To make things more interesting I decided to plot multiple lines. At first things were abit confusing because I am horrible with JavaScript, but after a little playing around this too is very easy to achieve. For this example I obviously need an additionaly datasource. I genereted this data source a little differently and made some tweaks to the original datasource because I found this method to be slightly better downstream. Take note that if you attempt to just send a Python dictionary wrapped in <code>jsonify()</code> or any of its sister functions it will kick back with an error about not being serialized. To fix this problem you can just pass the <code>jsonify</code> function key names like a dictionary, something II had not realized originally..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@example_site</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/example/test.json&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">send_sinwave</span><span class="p">():</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">1024</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">ix</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="mi">30</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>  <span class="n">y</span><span class="p">})</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">DataTest</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TestLabel&#39;</span><span class="p">)</span>
+
+<span class="nd">@example_site</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/example/test2.json&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">send_sinwave2</span><span class="p">():</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2000</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">ix</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="o">-</span><span class="mi">2</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>  <span class="n">y</span><span class="p">})</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">DataTest</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;TestLabel2&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get the data we just add a second AJAX call that gets a url passed to it corrisponding with our second data source, then save the data off to a variable that I am creatively calling <code>plot_data2</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span> <span class="n">plot_data</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">plot_data2</span><span class="p">;</span>
+
+<span class="err">$</span><span class="o">.</span><span class="n">ajax</span><span class="p">({</span>
+    <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;/example/test.json&#39;</span><span class="p">,</span>
+    <span class="n">dataType</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+    <span class="k">async</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="n">success</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+<span class="err">$</span><span class="o">.</span><span class="n">ajax</span><span class="p">({</span>
+    <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;/example/test2.json&#39;</span><span class="p">,</span>
+    <span class="n">dataType</span><span class="p">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+    <span class="k">async</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="n">success</span><span class="p">:</span> <span class="n">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Once the data is in JavaScript if we wrap both datasets in list we can use D3 to get the axis min and maxes over all datasets in one simple call.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span> <span class="n">both_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">plot_data</span><span class="p">,</span><span class="n">plot_data2</span><span class="p">];</span>
+
+<span class="n">var</span> <span class="n">minY</span> <span class="o">=</span> <span class="n">d3</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">both_data</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">d3</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataTest</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">Y</span><span class="p">;</span> <span class="p">});</span> <span class="p">});</span>
+<span class="n">var</span> <span class="n">maxY</span> <span class="o">=</span> <span class="n">d3</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">both_data</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">d3</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataTest</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">Y</span><span class="p">;</span> <span class="p">});</span> <span class="p">});</span>
+<span class="n">var</span> <span class="n">minX</span> <span class="o">=</span> <span class="n">d3</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">both_data</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">d3</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataTest</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">X</span><span class="p">;</span> <span class="p">});</span> <span class="p">});</span>
+<span class="n">var</span> <span class="n">maxX</span> <span class="o">=</span> <span class="n">d3</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">both_data</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">d3</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataTest</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">X</span><span class="p">;</span> <span class="p">});</span> <span class="p">});</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next comes something I am not super fond of and could be avoided if I just passed matrices from Python instead of labeled dictionary/DataFrames. Maybe there is a trick to do this in JavaScript that I am not aware of at this time but for now the following seems to be required because Flot Plot requires its data in multidemensional arrays, not as objects.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span> <span class="n">data_to_plot</span> <span class="o">=</span> <span class="p">[[]];</span>
+<span class="n">var</span> <span class="n">data_to_plot2</span> <span class="o">=</span> <span class="p">[[]];</span>
+
+<span class="k">for</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">DataTest</span><span class="p">)</span>
+    <span class="n">data_to_plot</span><span class="o">.</span><span class="n">push</span><span class="p">([</span><span class="n">plot_data</span><span class="o">.</span><span class="n">DataTest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">DataTest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">Y</span><span class="p">]);</span>
+
+<span class="k">for</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">plot_data2</span><span class="o">.</span><span class="n">DataTest</span><span class="p">)</span>
+    <span class="n">data_to_plot2</span><span class="o">.</span><span class="n">push</span><span class="p">([</span><span class="n">plot_data2</span><span class="o">.</span><span class="n">DataTest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">plot_data2</span><span class="o">.</span><span class="n">DataTest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">Y</span><span class="p">]);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The only change to the actual plotting code was in the plotObj variable. Just add an additional object that represents the additional series. Some observations about how I might improve on things. I could see passing the color information and maybe even other details about the series in the json datasource.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span> <span class="n">plotObj</span> <span class="o">=</span> <span class="err">$</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="err">$</span><span class="p">(</span><span class="s2">&quot;#flot-line-chart&quot;</span><span class="p">),</span> <span class="p">[{</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">data_to_plot</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">data_to_plot2</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">plot_data2</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span>
+    <span class="p">}],</span>
+    <span class="n">options</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre>
+    <span>
+
+        <div class="flot-chart">
+            <div class="flot-chart-content" id="flot-line-chart2"></div>
+        </div>
+
+
+    </span>
 </pre></div>
 
 </div>
@@ -309,8 +497,10 @@ MathJax.Hub.Config({
 
 <script type="text/javascript">
     var data_path = "{{path_to_data}}"
+    var data_path2a = "{{path_to_data2a}}"
+    var data_path2b = "{{path_to_data2b}}"
 
 </script>
 <script type="text/javascript" src="/example/js/flot_line_plot.js"></script>
-
+<script type="text/javascript" src="/example/js/flot_line_plot_multi_series.js"></script>
 {% endblock %}

@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 from flask_jsonpify import jsonpify
 from models.bitcoin_dashboard.data_analysis.dashboard import getAllData, getCoinPrices
+import json
+
+
 example_site = Blueprint('example_site',
                       __name__,
                       template_folder='templates',
@@ -97,21 +100,46 @@ def table():
     return html
 
 
+def set_default(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
+
+
+@example_site.route('/example/test1.json')
+def send_sinwave1():
+    N = 1024
+    ix = np.arange(N)
+    y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
+    x = range(0, N)
+    data = pd.DataFrame({'X': x, 'Y':  y}).to_dict(orient='records')
+    return jsonify(DataTest=data, label='TestLabel')
+
+@example_site.route('/example/test2.json')
+def send_sinwave2():
+    N = 2000
+    ix = np.arange(N)
+    y = np.sin(-2 * np.pi * ix / float(N / 3)) * -2
+    x = range(0, N)
+    data = pd.DataFrame({'X': x, 'Y':  y}).to_dict(orient='records')
+    return jsonify(DataTest=data, label='TestLabel2')
+
 @example_site.route('/example/test.json')
 def send_sinwave():
     N = 1024
     ix = np.arange(N)
     y = np.sin(2 * np.pi * ix / float(N / 3)) * 20 + 30
-    x = range(0, N)
-    data = dict(X=x, Y=y)
+    x = range(0,N)
+    data = dict(X= x, Y=y)
     data = pd.DataFrame(data)
-
     return data.to_json(orient='records')
 
 @example_site.route('/example/flot_lineplot')
 def plot_flot():
     return render_template('FlotPlot_LineChart_Example_with_AJAX.html',
                            path_to_data='/example/test.json',
+                           path_to_data2a='/example/test1.json',
+                           path_to_data2b='/example/test2.json',
                            active_page='examples'
                            )
 
