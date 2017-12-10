@@ -215,6 +215,7 @@ def datesFromTo(DatesFrom=None, DatesTo=datetime.today()):
         datelist.append(date.strftime('%Y-%m-%d'))
     return datelist
 
+
 def getCurrentWalletDF(session=None, db='cryptocoindb2', coin=None):
     """
     Function get all the transaction history for a given coin or all coins owned. Then it gets the current price and
