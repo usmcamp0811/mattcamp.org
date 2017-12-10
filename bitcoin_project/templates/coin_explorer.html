@@ -12,7 +12,13 @@
 {% block content %}
 <div class="container-fluid bg-1 text-center">
     <div class="col-lg-12">
-        {{flot_line_chart(header="Crypto Coin Prices")}}
+            <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="flot-chart">
+                <div class="flot-chart-content" id="flot-line-chart"></div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 {% block footer %}
@@ -29,8 +35,10 @@
 
 {% block scripts %}
 {{super()}}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <!-- Flot Charts JavaScript -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/excanvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.js"></script>
@@ -40,8 +48,9 @@
 
 
 <script type="text/javascript">
-    var data_path = "{{path_to_data}}"
+    var coin_list = {{ coin_list|safe }};
 </script>
-<script type="text/javascript" src="/main/js/flot_line_plot.js"></script>
+<script type="text/javascript" src="/bitcoin_project/js/coinflotplot.js"></script>
+
 
 {% endblock %}

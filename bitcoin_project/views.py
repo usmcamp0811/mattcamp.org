@@ -5,7 +5,7 @@ import pandas as pd
 import sys
 sys.path.append("..")
 import flask
-from flask import request, Blueprint
+from flask import request, Blueprint, url_for
 import pip
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
@@ -25,6 +25,10 @@ bitcoin_project = Blueprint('bitcoin_project',
                       template_folder='templates',
                       static_folder='static',
                       static_url_path='')
+
+@bitcoin_project.route('/bitcoin_project/<path:filename>')
+def base_static(filename):
+    return send_from_directory(bitcoin_project.root_path + '/../bitcoin_project/static', filename)
 
 @bitcoin_project.route('/projects/bitcoin_dashboard')
 def dashboard():
@@ -65,30 +69,32 @@ def dashboard():
     )
     return encode_utf8(html)
 
-@bitcoin_project.route('/projects/api/coins_price_usd')
-def coin_price():
+@bitcoin_project.route('/projects/api/coins_price_usd/<coinname>/FROM<dateFrom>TO<dateTo>')
+def coin_price(coinname, dateFrom, dateTo):
     """
     Gets the price of a coin over a span of time.
     :return:
     """
+    print(dateFrom)
     dt_today = datetime.today()
     dt_yesterday = datetime.today() - timedelta(days=1)
-    coinname = request.args.get('coinname', default='Bitcoin', type=str)
-    dateTo = request.args.get('dateTo', default=dt_today.strftime('%Y-%m-%d'), type=str)
-    dateFrom = request.args.get('dateFrom', default=dt_yesterday.strftime('%Y-%m-%d'), type=str)
+    # coinname = request.args.get('coinname', default='bitcoin', type=str)
+    # dateTo = request.args.get('dateTo', default=dt_today.strftime('%Y-%m-%d'), type=str)
+    # dateFrom = request.args.get('dateFrom', default=dt_yesterday.strftime('%Y-%m-%d'), type=str)
 
     coinPrices = getCoinPrices(coinname=coinname, dateFrom=dateFrom, dateTo=dateTo, session=None, debug=True)
-    coinPrices = coinPrices.reset_index()
-
-    # return jsonify(dict(data=coinPrices.astype(str).as_matrix().tolist()))
-    data = jsonpify(np.array([coinPrices['index'], coinPrices['price_usd']]).T.tolist())
+    print('Coin: {} From: {} To: {}'.format(coinname, dateFrom, dateTo))
+    coinPrices['timestamp'] = coinPrices['timestamp'].astype(np.int64)// 10**6
+    coinPrices = coinPrices.sort_values('timestamp')
+    coinPrices = coinPrices.to_dict(orient='records')
+    data = jsonify(price_data=coinPrices, coinname=coinname)
     return data
 
 @bitcoin_project.route('/projects/coin_explorer')
 def coin_explorer():
-
+    coin_list = ['/projects/api/coins_price_usd/dash/FROM2017-12-01TO2017-12-09', '/projects/api/coins_price_usd/litcoin/FROM2017-12-01TO2017-12-09']
     html = render_template('coin_explorer.html',
-                           path_to_data='/projects/api/coins_price_usd',
+                           coin_list=coin_list,
                            active_page='projects')
     return html
 
@@ -101,3 +107,6 @@ def coin_api():
 
     html = render_template('coin_socket.html', async_mode=socketio.async_mode)
     return html
+
+# @bitcoin_project.route('/projects/api/<coin_name>')
+# def coin_price_history(coin_name):
