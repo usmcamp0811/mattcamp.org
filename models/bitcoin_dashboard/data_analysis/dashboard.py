@@ -18,7 +18,8 @@ colorDict = {'aragon': '#1f77b4',
              'litecoin': '#ff9896',
              'decred': '#1CC726',
 	         'omisego': '#77267d',
-             'bitcoincash': '#8191A2'}
+             'bitcoincash': '#8191A2',
+             'monero': '#77d637'}
 
 
 def dt2ut(dt):

@@ -99,7 +99,7 @@ def chunks(iterable, chunk_size):
 @bitcoin_project.route('/projects/coin_explorer')
 def coin_explorer():
     current_wallet = getCurrentWalletDF(session=None, db='cryptocoindb2', coin=None)
-    dates_list = datesFromTo(DatesFrom='2017-12-06', DatesTo='2017-12-10')
+    dates_list = datesFromTo(DatesFrom='2017-12-07', DatesTo='2017-12-10')
     chunks = np.array_split(dates_list, len(dates_list)//2)
     coinsowned = set(current_wallet.name)
     coinsowned = list(set([coin.lower() for coin in coinsowned]))
@@ -109,7 +109,8 @@ def coin_explorer():
             coin_list.append('/projects/api/coins_price_usd/{}/FROM{}TO{}'.format(coin.lower(), chunk[0], chunk[1]))
 
     html = render_template('coin_explorer.html',
-                           coin_list=coin_list,
+                           coin_list=coinsowned,
+                           coin_paths=coin_list,
                            active_page='projects')
     return html
 
