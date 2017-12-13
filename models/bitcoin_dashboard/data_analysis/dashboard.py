@@ -110,7 +110,7 @@ def GainLossPlot(tblGainLoss):
 
     tools = [hover, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
     gain_loss_plot = figure(x_axis_type="datetime", title="Net Performance Accross All Owned CryptoCurrencies",
-                            y_range=(0, 2500), plot_width=1000, plot_height=400, tools=tools)
+                            y_range=(0, 6000), plot_width=1000, plot_height=400, tools=tools)
 
     gain_loss_plot.grid.grid_line_alpha=0.2
     gain_loss_plot.xaxis.axis_label = 'Date'
@@ -144,7 +144,7 @@ def MarketPlot(tblCoins, coinHistory):
     tools = [hover2, WheelZoomTool(), 'box_zoom', 'pan', LassoSelectTool()]
 
     market_plot = figure(x_axis_type="datetime", title="Performance of the Coins I Own", plot_width=1000, plot_height=400,
-                         y_range=(0, 18000), tools=tools)
+                         y_range=(0, 22000), tools=tools)
     market_plot.grid.grid_line_alpha=0.2
     market_plot.xaxis.axis_label = "Date"
     market_plot.yaxis.axis_label = "Price (USD)"
