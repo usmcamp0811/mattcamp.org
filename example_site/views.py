@@ -73,6 +73,38 @@ def index():
                            links=links_widget)
     return html
 
+@example_site.route('/example/d3_modal')
+def d3_modal():
+    """
+    Example d3 Modal
+    :return:
+    """
+
+    html = render_template('D3_Modal_Example.html',
+                           active_page='examples')
+    return html
+
+@example_site.route('/example/iFrame_modal')
+def iframe_modal():
+    """
+    Example iFrame Modal
+    :return:
+    """
+
+    html = render_template('iFrame_Modal_Example.html',
+                           active_page='examples')
+    return html
+
+@example_site.route('/example/d3modal/popup')
+def modal_example_popup():
+    """
+    Example d3 Modal
+    :return:
+    """
+
+    html = render_template('modal_example.html')
+    return html
+
 @example_site.route('/example/datatable')
 def table():
     '''
@@ -151,7 +183,7 @@ def under_construction2():
     return html
 
 @example_site.route('/example/socket')
-def docket_test():
+def socket_test():
     path = 'examples'
     link = Links()
     links = [link for x in range(5)]

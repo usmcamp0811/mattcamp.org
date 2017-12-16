@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/main/css/bootstrap4jupyter.css">
+
+<head><meta charset="utf-8" />
+<!--<title>Untitled</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="iFrame-Modal-Example">iFrame Modal Example<a class="anchor-link" href="#iFrame-Modal-Example">&#182;</a></h1><p>As previously mentioned at the end of my D3 Modal Example, I had problems displaying multiple modals on a single page. The following will demonstrate how to use iFrame inside a Bootstrap 4 modal. Just as an FYI there seems to be something in the D3 Modal example that doesn't like playing nice with the modals in this example. iFrame Modals look as if one could failry easily put the modal code in a Jinja2 macro and then use it as much as needed. I may end up doing this on my work project.</p>
+<h3 id="The-imports">The imports<a class="anchor-link" href="#The-imports">&#182;</a></h3><p>These appear to just be your typical Bootstrap 4 imports. I didn't add anything more to my page to make this work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css&quot;</span><span class="o">&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Example-Modal-Buttons">Example Modal Buttons<a class="anchor-link" href="#Example-Modal-Buttons">&#182;</a></h3><p>This is a pretty cool moto-video from my first deplyment to Fallujah, Iraq in 2004. I took most of the video and pictures but it was compiled by Josh Musser.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalHellsBells">Me Firing Artillery In Fallujah</button>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A Google Map of about where the video was taken.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPalehorse">Firebase Palehorse</button>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This example is just a DataTables example on my site. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExample">An Example Page on My Site</button>
+    <br>
+    <p><i>NOTE: iFrames will asynchronously load modal content.<i></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="HTML-Code-for-a-Modal">HTML Code for a Modal<a class="anchor-link" href="#HTML-Code-for-a-Modal">&#182;</a></h3><p>Each modal container needs to be created seperately, though they could be easily turned into a macro. To change the page displayed just edit the <code>&lt;iframe&gt;</code> tag with the appropriate url and that is it. Pretty simple to impliment.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;btn btn-primary&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">toggle</span><span class="o">=</span><span class="s2">&quot;modal&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;#modalName&quot;</span><span class="o">&gt;</span><span class="n">Button</span> <span class="n">Text</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal fade&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;modalName&quot;</span> <span class="n">tabindex</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="n">aria</span><span class="o">-</span><span class="n">labelledby</span><span class="o">=</span><span class="s2">&quot;myModalLabel&quot;</span> <span class="n">aria</span><span class="o">-</span><span class="n">hidden</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-dialog modal-lg&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;document&quot;</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;!</span>--Content--&gt;
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-content&quot;</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;!</span>--Body--&gt;
+        <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-body mb-0 p-0&quot;</span><span class="o">&gt;</span>
+
+            <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;embed-responsive embed-responsive-16by9 z-depth-1-half&quot;</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">iframe</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;560&quot;</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;315&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://www.youtube.com/embed/79T2ThRZcvw&quot;</span> <span class="n">frameborder</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">gesture</span><span class="o">=</span><span class="s2">&quot;media&quot;</span> <span class="n">allow</span><span class="o">=</span><span class="s2">&quot;encrypted-media&quot;</span> <span class="n">allowfullscreen</span><span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;!</span>--Footer--&gt;
+        <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-footer justify-content-center&quot;</span><span class="o">&gt;</span>
+
+            <span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;btn btn-outline-primary btn-rounded btn-md ml-4&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">dismiss</span><span class="o">=</span><span class="s2">&quot;modal&quot;</span><span class="o">&gt;</span><span class="n">Close</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;!</span>--/.Content--&gt;
+
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</body>
+
+</div>
+
+<!--Modal: Fallujah Video-->
+<div class="modal fade" id="modalHellsBells" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+
+    <!--Content-->
+    <div class="modal-content">
+
+        <!--Body-->
+        <div class="modal-body mb-0 p-0">
+
+            <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/79T2ThRZcvw" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+            </div>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+
+            <button type="button" class="btn btn-outline-primary btn-rounded btn-md ml-4" data-dismiss="modal">Close</button>
+
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+</div>
+<!--Modal: Name-->
+
+<!--Modal: Name-->
+<div class="modal fade" id="modalExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+
+    <!--Content-->
+    <div class="modal-content">
+
+        <!--Body-->
+        <div class="modal-body mb-0 p-0">
+
+            <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                <iframe class="embed-responsive-item" src="{{ url_for('example_site.table') }}" allowfullscreen></iframe>
+            </div>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+
+            <button type="button" class="btn btn-outline-primary btn-rounded btn-md ml-4" data-dismiss="modal">Close</button>
+
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+</div>
+<!--Modal: Name-->
+
+<!--Modal: Name-->
+<div class="modal fade" id="modalPalehorse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+
+    <!--Content-->
+    <div class="modal-content">
+
+        <!--Body-->
+        <div class="modal-body mb-0 p-0">
+
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4806.698457440993!2d43.87477117510872!3d33.31477099262628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDE4JzUzLjIiTiA0M8KwNTInMzQuMSJF!5e1!3m2!1sen!2sus!4v1513440363249" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer justify-content-center">
+
+            <button type="button" class="btn btn-outline-primary btn-rounded btn-md ml-4" data-dismiss="modal">Close</button>
+
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+</div>
+<!--Modal: Name-->
+
+
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+<script src="https://unpkg.com/d3-require@0.4.5/build/d3-require.js"></script>
+<script src="https://unpkg.com/d3-let@0.3.2/build/d3-let.js"></script>
+<script src="https://unpkg.com/d3-view@0.9.3/build/d3-view.js"></script>
+<script>
+
+var modal_url = '{{ url_for('example_site.modal_example_popup') }}';
+
+
+</script>
+<script src="/example/js/d3_modal_example.js"></script>
+{% endblock %}

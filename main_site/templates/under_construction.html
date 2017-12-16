@@ -6,6 +6,7 @@
 {{super()}}
 <link rel="stylesheet" href="/main/css/under_construction.css">
 <link rel="stylesheet" href="/main/css/base.css">
+
 {% endblock %}
 
 {% block content %}
@@ -13,10 +14,16 @@
     <img class="uc_img" src="/main/img/robots.png" alt="Matt Camp">
     <h3>Under Construction</h3>
 
-</div>
+
+
 
 {% block footer %}
 {{super()}}
 {{footer()}}
 {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
 {% endblock %}

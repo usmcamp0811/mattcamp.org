@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/main/css/bootstrap4jupyter.css">
+
+<head><meta charset="utf-8" />
+<!--<title>Untitled</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="D3js-Modal-Example">D3js Modal Example<a class="anchor-link" href="#D3js-Modal-Example">&#182;</a></h1><p>Ok so I spent the past day trying to get a modal to work for a project I have at work that uses Bootstrap 4. Apparently they either depricated the external url modal support or I am too ignorant in JavaScript/HTML/CSS to get it to work (most likely... have I said how much I suck at HTML/JS/CSS!). Because I am the type of person who can't just except that something isn't going to work... I spent the past hour or so exercising my Google Foo and finally found a compatible modal example that uses D3. I don't know a lot of D3 but what I do know I really like it. It is easy to use and for the most part makes sense. So full disclosure I didn't really make this example its just adopted from <a href="https://bl.ocks.org/lsbardel/964b454dd40bc32082a0753e9106a707">HERE</a>.</p>
+<p>The following will be pretty short but I'll demonstrate the logic for integrating this into a Flask site.</p>
+<h3 id="The-imports">The imports<a class="anchor-link" href="#The-imports">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://d3js.org/d3.v4.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://unpkg.com/d3-require@0.4.5/build/d3-require.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://unpkg.com/d3-let@0.3.2/build/d3-let.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://unpkg.com/d3-view@0.9.3/build/d3-view.js&quot;</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Modal-Button-HTML">The Modal Button HTML<a class="anchor-link" href="#The-Modal-Button-HTML">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;btn btn-primary&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;$modal()&quot;</span><span class="o">&gt;</span>
+    <span class="n">D3</span> <span class="n">Modal</span> <span class="n">Button</span> <span class="n">Example</span>
+<span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+
+<span class="c1"># Because we are using D3, if we don&#39;t want a button and would rather have a plan text &lt;a&gt; tag we can. </span>
+<span class="o">&lt;</span><span class="n">a</span> <span class="n">d3</span><span class="o">-</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;$modal()&quot;</span><span class="o">&gt;</span>
+    <span class="n">D3</span> <span class="n">Modal</span> <span class="n">Plane</span> <span class="n">Text</span> <span class="n">Example</span>
+<span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Modal-JavaScript">The Modal JavaScript<a class="anchor-link" href="#The-Modal-JavaScript">&#182;</a></h3><p>If you want to be able to dynamically pass the JavaScript page urls, we can either include all the following JS or if we just include the declaration of the variable <code>modal_url</code> in the html file we can save the rest of the code off in a seperate file to make things easier to digest.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">var</span> <span class="n">modal_url</span> <span class="o">=</span> <span class="s1">&#39;{% raw %}{{ url_for(&#39;</span><span class="n">example_site</span><span class="o">.</span><span class="n">modal_example_popup</span><span class="s1">&#39;) }}{% endraw %}&#39;</span><span class="p">;</span>
+
+<span class="p">(</span><span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+
+<span class="n">var</span> <span class="n">modal</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">model</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">modalTitle</span><span class="p">:</span> <span class="s2">&quot;Example D3 Modal&quot;</span><span class="p">,</span>
+        <span class="n">modalBody</span><span class="p">:</span> <span class="s1">&#39;If you want to hard code text for the modal do it here.&#39;</span><span class="p">,</span>
+        <span class="n">showModal</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+        <span class="err">$</span><span class="n">showModal</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">showModal</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="err">$</span><span class="n">hideModal</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="n">this</span><span class="o">.</span><span class="n">showModal</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="n">directive</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">refresh</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span>this.passes<span class="o">)</span> <span class="k">return</span><span class="p">;</span>
+            <span class="n">var</span> <span class="n">sel</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">sel</span><span class="p">,</span>
+                <span class="n">modal</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">classed</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">show</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;block&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">classed</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="n">true</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">modal</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">var</span> <span class="n">height</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">);</span>
+                    <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">height</span><span class="p">);</span>
+                    <span class="n">this</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span><span class="o">.</span><span class="n">ease</span><span class="p">(</span><span class="n">d3</span><span class="o">.</span><span class="n">easeExpOut</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;0px&#39;</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">var</span> <span class="n">op</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;opacity&#39;</span><span class="p">),</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="n">sel</span><span class="p">);</span>
+                <span class="n">sel</span><span class="o">.</span><span class="n">classed</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="n">false</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">modal</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">var</span> <span class="n">height</span> <span class="o">=</span> <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">);</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">height</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+                        <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">);</span>
+                    <span class="p">});</span>
+                <span class="p">}</span> <span class="k">else</span>
+                    <span class="n">t</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;opacity&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+                    <span class="n">sel</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s1">&#39;opacity&#39;</span><span class="p">,</span> <span class="n">op</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="n">render</span><span class="p">:</span> <span class="n">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">this</span><span class="o">.</span><span class="n">renderFromUrl</span><span class="p">(</span><span class="n">modal_url</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">var</span> <span class="n">vm</span> <span class="o">=</span> <span class="n">d3</span><span class="o">.</span><span class="n">view</span><span class="p">({</span>
+    <span class="n">model</span><span class="p">:</span> <span class="p">{</span>
+        <span class="err">$</span><span class="n">modal</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">var</span> <span class="n">modal</span> <span class="o">=</span> <span class="n">vm</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;.modal&#39;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span>modal.size<span class="o">())</span>
+                <span class="n">vm</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;modal&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="n">v</span> <span class="o">=&gt;</span> <span class="n">v</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="err">$</span><span class="n">showModal</span><span class="p">());</span>
+            <span class="k">else</span>
+                <span class="n">modal</span><span class="o">.</span><span class="n">model</span><span class="p">()</span><span class="o">.</span><span class="err">$</span><span class="n">showModal</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="n">components</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">modal</span><span class="p">:</span> <span class="n">modal</span>
+    <span class="p">},</span>
+    <span class="n">directives</span><span class="p">:</span> <span class="p">{</span>
+        <span class="n">modal</span><span class="p">:</span> <span class="n">modal</span><span class="o">.</span><span class="n">directive</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+<span class="n">vm</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">);</span>
+<span class="p">}());</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Modal-HTML-Page">The Modal HTML Page<a class="anchor-link" href="#The-Modal-HTML-Page">&#182;</a></h3><p>I had bad luck when I was playing around with it getting it to show other pages from this site. So it would seem that the html for the page to be displayed as a modal does not need to be wrapped in <html> tags, but I could be wrong as I haven't read any documentation on this yet nor have I really tried everything under the sun. This is just my brief expierence that I am trying pass along.</p>
+<p>In the following HTML there are a couple nobs that can be turned to adjust things like how fast the modal appears and disappears.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&lt;</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal&quot;</span> <span class="n">tabindex</span><span class="o">=</span><span class="s2">&quot;-1&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">modal</span><span class="o">=</span><span class="s2">&quot;showModal&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">transition</span><span class="o">-</span><span class="n">duration</span><span class="o">=</span><span class="s2">&quot;500&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-dialog&quot;</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;document&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-content&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-header&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">h5</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-title&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">html</span><span class="o">=</span><span class="s2">&quot;modalTitle&quot;</span><span class="o">&gt;&lt;/</span><span class="n">h5</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;close&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">dismiss</span><span class="o">=</span><span class="s2">&quot;modal&quot;</span> <span class="n">aria</span><span class="o">-</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Close&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="n">span</span> <span class="n">aria</span><span class="o">-</span><span class="n">hidden</span><span class="o">=</span><span class="s2">&quot;true&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;$hideModal()&quot;</span><span class="o">&gt;&amp;</span><span class="n">times</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-body&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">html</span><span class="o">=</span><span class="s2">&quot;modalBody&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;construction_containter&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;text-center&quot;</span> <span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">img</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;uc_img&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;/main/img/robots.png&quot;</span> <span class="n">alt</span><span class="o">=</span><span class="s2">&quot;Matt Camp&quot;</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;width: 50%;&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="n">A</span> <span class="n">Very</span> <span class="n">Basic</span> <span class="n">Example</span> <span class="n">of</span> <span class="n">a</span> <span class="n">Modal</span><span class="o">.&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-footer&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">button</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;btn btn-secondary&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">on</span><span class="o">=</span><span class="s2">&quot;$hideModal()&quot;</span><span class="o">&gt;</span><span class="n">Close</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;modal-backdrop fade&quot;</span> <span class="n">d3</span><span class="o">-</span><span class="n">modal</span><span class="o">=</span><span class="s2">&quot;showModal&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">transition</span><span class="o">-</span><span class="n">duration</span><span class="o">=</span><span class="s2">&quot;500&quot;</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Put-it-all-together">Put it all together<a class="anchor-link" href="#Put-it-all-together">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<button type="button" class="btn btn-primary" d3-on="$modal()"> D3 Modal Button Example </button>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This solution is alright and will work fairly well if you only need a single modal per page. I originally thought I could pass different urls to the <code>modal_url</code> variable with D3 and it would dynamically change the page displayed on the modal. I was wrong... or more likely did something wrong again. My belief is that the function that houses the modal loads once and won't load again. I tried changing the function to be callable but there was some issue with <code>d3.view</code> I think that would throw an error on the second time the page loaded. There likely is an easy solution to this but my lack of expierence with JavaScript is precluding me at this time from using this method the way I intended to. Luckily I did finally find the prefered Bootstrap method for modals using urls.</p>
+<p>UPDATE: I figured out how to do this in Bootstrap 4 using iFrames. Check out the example <a href="{{ url_for('example_site.iframe_modal') }}">HERE</a></p>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+</body>
+
+
+
+
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+<script src="https://unpkg.com/d3-require@0.4.5/build/d3-require.js"></script>
+<script src="https://unpkg.com/d3-let@0.3.2/build/d3-let.js"></script>
+<script src="https://unpkg.com/d3-view@0.9.3/build/d3-view.js"></script>
+<script>
+
+var modal_url = '{{ url_for('example_site.modal_example_popup') }}';
+
+
+</script>
+<script src="/example/js/d3_modal_example.js"></script>
+{% endblock %}
