@@ -138,6 +138,11 @@ def send_sinwave1():
     data = pd.DataFrame({'X': x, 'Y':  y}).to_dict(orient='records')
     return jsonify(DataTest=data, label='TestLabel')
 
+
+@example_site.route('/tony_plots/col1')
+def plot1():
+    render_template('col1.html')
+    
 @example_site.route('/example/test2.json')
 def send_sinwave2():
     N = 2000
