@@ -85,9 +85,9 @@ def coin_price(coinname, dateFrom, dateTo):
     coinPrices = getCoinPrices(coinname=coinname, dateFrom=dateFrom, dateTo=dateTo, session=None, debug=True)
     print('Coin: {} From: {} To: {}'.format(coinname, dateFrom, dateTo))
     coinPrices['timestamp'] = coinPrices['timestamp'].astype(np.int64)// 10**6
-    coinPrices = coinPrices.sort_values('timestamp')
+    coinPrices = coinPrices.sort_values('timestamp', ascending=False)
     coinPrices = coinPrices.to_dict(orient='records')
-    print(coinPrices)
+    # print(coinPrices)
     data = jsonify(price_data=coinPrices, coinname=coinname)
     return data
 
@@ -100,17 +100,22 @@ def chunks(iterable, chunk_size):
 @bitcoin_project.route('/projects/coin_explorer')
 def coin_explorer():
     current_wallet = getCurrentWalletDF(session=None, db='cryptocoindb2', coin=None)
-    dates_list = datesFromTo(DatesFrom='2017-12-07', DatesTo='2017-12-10')
-    chunks = np.array_split(dates_list, len(dates_list)//2)
+    dates_list = datesFromTo(DatesFrom='2017-11-07', DatesTo='2017-12-23')
+    dates_list.reverse()
+    chunks = np.array_split(dates_list, len(dates_list)//5)
     coinsowned = set(current_wallet.name)
     coinsowned = list(set([coin.lower() for coin in coinsowned]))
     coin_list = []
+    coinnames = []
+    print(coinsowned)
     for chunk in chunks:
         for coin in coinsowned:
-            coin_list.append('/projects/api/coins_price_usd/{}/FROM{}TO{}'.format(coin.lower(), chunk[0], chunk[1]))
+            coin_list.append('/projects/api/coins_price_usd/{}/FROM{}TO{}'.format(coin.lower(), chunk[0], chunk[-1]))
+            coinnames.append(coin.lower())
 
     html = render_template('coin_explorer.html',
-                           coin_list=coinsowned,
+                           coin_list=coinnames,
+                           coinsowned=coinsowned,
                            coin_paths=coin_list,
                            active_page='projects')
     return html

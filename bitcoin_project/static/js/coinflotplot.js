@@ -8,7 +8,7 @@ $(document).ready(function() {
     var coindata;
     console.log('Coin List:', coin_list);
     console.log('Coin Paths:', coin_paths);
-    for(var c=0; c<coin_list.length; c++){
+    for(var c=0; c<coinsowned.length; c++){
         var dummy_coindata = [{'Timestamp':[], 'PriceData':[]}];
         coinname = coin_list[c];
         coindata = {'CoinPlotData': dummy_coindata,
@@ -20,15 +20,13 @@ $(document).ready(function() {
     var index;
 
     //What the data structure needs to look like:
-    // {CoinName:
+    // {<CoinName>:
     //      {CoinPlotData:[{Timestamp:123456, PriceData:100332},
     //                     {Timestamp:678901, PriceData:1002},
     //                      ...],
-    //       label:'CoinName'}
+    //       label:'<CoinName>'}
     // }
-    //
-    //AJAX Get data stuff
-    // I need to make multiple AJAX functions so I can get one for each coin. Myabe use Jinja to template this..
+
     for(var i=0; i<coin_list.length; i++){
 
             $.ajax({
@@ -48,34 +46,53 @@ $(document).ready(function() {
                 }
 
         });
-
+        var plotObjs = [];
+        plot();
     }
 
-
-var minY = d3.min(coins, function(c) { return d3.min(c.CoinPlotData, function(dpd) { return dpd.price_usd; }); });
-var maxY = d3.max(coins, function(c) { return d3.max(c.CoinPlotData, function(dpd) { return dpd.price_usd; }); });
-var minX = d3.min(coins, function(c) { return d3.min(c.CoinPlotData, function(dpd) { return dpd.timestamp; }); });
-var maxX = d3.max(coins, function(c) { return d3.max(c.CoinPlotData, function(dpd) { return dpd.timestamp; }); });
-
-console.log('MinX', minX, 'MinY', minY, 'MaxX', maxX, 'MaxY', maxY);
-console.log('With some luck this worked!', coins);
-
-
-
-
-for(var c=0; c<coins.length; c++){
-    var label_to_plot = coins[c].label;
-    var data_to_plot = [[]];
-    for(key in coins[c].CoinPlotData) {
-        data_to_plot.push([coins[c].CoinPlotData[key].timestamp,
-                          (coins[c].CoinPlotData[key].price_usd)]);
-    };
-    plotObjs.push({'label': label_to_plot,
-                    'data': data_to_plot})
-};
-console.log('Plot Data', plotObjs);
-plot();
 function plot() {
+    var minY = d3.min(coins, function (c) {
+        return d3.min(c.CoinPlotData, function (dpd) {
+            return dpd.price_usd;
+        });
+    });
+    var maxY = d3.max(coins, function (c) {
+        return d3.max(c.CoinPlotData, function (dpd) {
+            return dpd.price_usd;
+        });
+    });
+    var minX = d3.min(coins, function (c) {
+        return d3.min(c.CoinPlotData, function (dpd) {
+            return dpd.timestamp;
+        });
+    });
+    var maxX = d3.max(coins, function (c) {
+        return d3.max(c.CoinPlotData, function (dpd) {
+            return dpd.timestamp;
+        });
+    });
+
+// console.log('MinX', minX, 'MinY', minY, 'MaxX', maxX, 'MaxY', maxY);
+// console.log('With some luck this worked!', coins);
+
+console.log('Coins length:', coins.length);
+console.log('This is Coins', coins);
+    for (var c = 0; c < coins.length; c++) {
+
+        var label_to_plot = coins[c].label;
+        var data_to_plot = [[]];
+        for (key in coins[c].CoinPlotData) {
+            data_to_plot.push([coins[c].CoinPlotData[key].timestamp,
+                (coins[c].CoinPlotData[key].price_usd)]);
+        }
+        ;
+        plotObjs.push({
+            'label': label_to_plot,
+            'data': data_to_plot
+        })
+    }
+    ;
+
 
     var options = {
         series: {
@@ -102,10 +119,12 @@ function plot() {
         tooltip: true,
         tooltipOpts: {
             content: "'%s' of %x is %y.4",
-            }
-        };
+        }
+    };
 
-    var plotObj2 = $.plot($("#flot-line-chart"), plotObjs, options);
-    }
+    var plot = $.plot($("#flot-line-chart"), plotObjs, options);
 
+};
+
+console.log('This is whats getting plotted', plotObjs);
 });
