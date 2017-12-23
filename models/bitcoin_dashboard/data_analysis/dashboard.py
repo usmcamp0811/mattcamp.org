@@ -9,9 +9,9 @@ from bokeh.models import LassoSelectTool, WheelZoomTool, Span, \
     ColumnDataSource, HoverTool, Label
 
 colorDict = {'aragon': '#1f77b4',
-             'bitcoin': '#aec7e8',
+             'bitcoin': '#ffbb78',
              'civic': '#ff7f0e',
-             'dash': '#ffbb78',
+             'dash': '#aec7e8',
              'eos': '#2ca02c',
              'ethereum': '#98df8a',
              'gnosis': '#d62728',

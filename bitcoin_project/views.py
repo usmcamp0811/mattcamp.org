@@ -87,6 +87,7 @@ def coin_price(coinname, dateFrom, dateTo):
     coinPrices['timestamp'] = coinPrices['timestamp'].astype(np.int64)// 10**6
     coinPrices = coinPrices.sort_values('timestamp')
     coinPrices = coinPrices.to_dict(orient='records')
+    print(coinPrices)
     data = jsonify(price_data=coinPrices, coinname=coinname)
     return data
 

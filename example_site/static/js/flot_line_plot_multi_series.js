@@ -26,7 +26,7 @@ $(document).ready(function() {
   }
 });
 
-
+console.log('This is what it looks like from Ajax:', plot_data1);
 var both_data = [plot_data1,plot_data2];
 
 var minY = d3.min(both_data, function(pd) { return d3.min(pd.DataTest, function(dt) { return dt.Y; }); });
@@ -47,8 +47,20 @@ for(key in plot_data2.DataTest)
 
 console.log('MinX', minX, 'MinY', minY, 'MaxX', maxX, 'MaxY', maxY);
 
-console.log(plot_data1);
+console.log(both_data);
 //    actual plot stuff
+
+var plotObs = [{
+            data: data_to_plot1,
+            label: plot_data1.label,
+            color: 'blue'
+        },
+        {
+            data: data_to_plot2,
+            label: plot_data2.label,
+            color: 'red'
+        }];
+console.log('I need my other thing to look like this!', plotObs);
 plot2()
 function plot2() {
 
@@ -77,17 +89,7 @@ function plot2() {
             content: "'%s' of %x.1 is %y.4",
         }
     };
-    var plotObj2 = $.plot($("#flot-line-chart2"), [{
-            data: data_to_plot1,
-            label: plot_data1.label,
-            color: 'blue'
-        },
-        {
-            data: data_to_plot2,
-            label: plot_data2.label,
-            color: 'red'
-        }],
-        options);
+    var plotObj2 = $.plot($("#flot-line-chart2"), plotObs, options);
     }
 });
 
