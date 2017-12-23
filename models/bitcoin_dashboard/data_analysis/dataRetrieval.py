@@ -4,7 +4,10 @@ import pandas as pd
 import numpy as np
 from cassandra.query import SimpleStatement
 from cassandra.cluster import Cluster
-from models.bitcoin_dashboard.data_collection.Create_CQL import *
+try:
+    from models.bitcoin_dashboard.data_collection.Create_CQL import *
+except:
+    from data_collection.Create_CQL import *
 import time
 from datetime import datetime, timedelta
 import time
