@@ -8,8 +8,10 @@ import pandas as pd
 import requests
 from cassandra.cluster import Cluster
 
-from models.bitcoin_dashboard.data_collection.Create_CQL import *
-
+try:
+    from models.bitcoin_dashboard.data_collection.Create_CQL import *
+except:
+    from data_collection.Create_CQL import *
 
 def pandas_factory(colnames, rows):
     return pd.DataFrame(rows, columns=colnames)
@@ -57,6 +59,7 @@ def UpdatetCoinList(session=None, CASSANDRA_DB=None, output=False):
 
 def getMultiTradingPairs(session=None, CASSANDRA_DB=None, coins=None, output=False):
     post_fields = {'pairs': coins}
+    print('Post Fields:', post_fields)
     request = requests.post("http://api.cryptocoincharts.info/tradingPairs/", data=post_fields)
     if request.status_code == 200:
         tradingPairs = pd.DataFrame(request.json())
@@ -135,7 +138,7 @@ if __name__ == "__main__":
                                 pass
                             coin_pairs.append(fcoin + "_" + tcoin.lstrip())
                 top20coins = ",".join(coin_pairs)
-
+                # print('Top 20 Coins:', top20coins)
                 tradingPairs = getMultiTradingPairs(session=session, CASSANDRA_DB=CASSANDRA_DB, coins=top20coins, output=True)
 
                 print("Updated Trading Pairs Data @ " + str(datetime.datetime.now()))
