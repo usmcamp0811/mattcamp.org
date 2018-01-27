@@ -1,17 +1,9 @@
 import sys
 sys.path.append("..")
-try:
-    from models.bitcoin_dashboard.data_collection.scraperCryptoCoinCharts import *
-    from models.bitcoin_dashboard.data_collection.scraperCryptoCompare import *
-    from models.bitcoin_dashboard.data_collection.scraperWorldCoinIndex import *
-    from models.bitcoin_dashboard.data_collection.scraperBittrex import *
-except:
-    from data_collection.Create_CQL import *
-    from data_collection.scraperCryptoCoinCharts import *
-    from data_collection.scraperCryptoCompare import *
-    from data_collection.scraperWorldCoinIndex import *
-    from data_collection.scraperBittrex import *
-
+from models.bitcoin_dashboard.data_collection.scraperCryptoCoinCharts import *
+from models.bitcoin_dashboard.data_collection.scraperCryptoCompare import *
+from models.bitcoin_dashboard.data_collection.scraperWorldCoinIndex import *
+from models.bitcoin_dashboard.data_collection.scraperBittrex import *
 import os, sys
 # from daemonize import Daemonize
 
@@ -24,7 +16,7 @@ import os, sys
 
 def getCoinData():
 
-    CASSANDRA_HOST = ['192.168.0.101', '192.168.0.114', '192.168.0.106']
+    CASSANDRA_HOST = ['10.8.0.106', '192.168.0.101', '192.168.0.114', '192.168.0.106']
     CASSANDRA_PORT = 9042
     CASSANDRA_DB = "cryptocoindb2"
 

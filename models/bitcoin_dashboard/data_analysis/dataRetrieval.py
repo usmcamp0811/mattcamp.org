@@ -152,10 +152,12 @@ def getCurrentPrice(strName=None):
     # print(qryCoins)
     rslt = session.execute(qryCoins, timeout=None)
     tblCoins = rslt._current_rows
-    # print(tblCoins.shape[0])
+
+    # print(qryCoins)
     if tblCoins.shape[0] != 1:
         print('getCurrentPrice({}): Error'.format(strName))
         print('Either more than one record was returned or we could not find that coin in the DB.')
+        print('The scraper probably broke and needs to be rebooted or something... ')
         return 0
     else:
         price = tblCoins['price_usd'].loc[0]

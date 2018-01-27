@@ -239,7 +239,7 @@ def WalletPlot(coinHistory):
                      'pp_Amount': pp_amount,
                      'pp_Current': pp_coinCurrent,
                      'Position': [0 for x in range(len(coinName))]}
-
+    print(totalDollars)
     hover = HoverTool(
         tooltips=[
             ( 'Coin:',   '@Coin'            ),
